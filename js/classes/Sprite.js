@@ -5,7 +5,7 @@ class Sprite{
      * @param {int} x is the x position for the image 
      * @param {int} y is the y position of the image
      */
-    constructor(imgSrc, x, y, frameRate, animations){
+    constructor(imgSrc, x, y, frameRate, animations, loop = true){
         this.gameContext = new Game().getContext()
         this.image = new Image()
         this.image.src = imgSrc
@@ -14,6 +14,7 @@ class Sprite{
         this.currentFrame = 0
         this.elapsedFrame = 0
         this.frameBuffer = 4
+        this.loop = loop
 
         this.image.onload = () => {
             this.isLoaded = true
@@ -66,7 +67,7 @@ class Sprite{
 
         if(this.elapsedFrame % this.frameBuffer === 0){
             if(this.currentFrame < this.frameRate - 1) this.currentFrame += 1
-            else this.currentFrame = 0
+            else if(this.loop) this.currentFrame = 0
         }
     }
 }

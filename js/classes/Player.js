@@ -6,7 +6,10 @@ class Player extends Sprite{
      * @param {int} y is the y position of the player
      * @param {int} width is the width of the player block
      * @param {int} height is the height of the player block
+     * @param {string} imgSrc is the path of the sprite image
      * @param {Array} collisionBlocks are all the collision blocks in the level 
+     * @param {int} frameRate is the number of images in a sprite
+     * @param {Array} animations are all the types of sprite a player can be 
      */
     constructor(x, y, width, height, imgSrc, collisionBlocks, frameRate, animations){
         super(imgSrc, x, y, frameRate, animations)
@@ -31,7 +34,7 @@ class Player extends Sprite{
         this.isMovingRight = false
         this.isMovingUp = false
         this.isMovingDown = false
-        this.isFacing = 'right'
+        this.isFacing = 'left'
     }
 
     // /**
@@ -131,6 +134,7 @@ class Player extends Sprite{
         this.image = this.animations[spriteName].image
         this.frameRate = this.animations[spriteName].frameRate
         this.frameBuffer = this.animations[spriteName].frameBuffer
+        this.loop = this.animations[spriteName].loop
     }
 
     /**

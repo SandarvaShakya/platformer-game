@@ -10,3 +10,15 @@ const parseArrayIn2D = (array) => {
     }
     return rows
 }
+
+const addCollisionBlocks = () => {
+    let parsedData = parseArrayIn2D(collisionData2)
+    // generation of collision blocks from the collision data
+    parsedData.forEach((row, rowIndex) => {
+        row.forEach((tile, tileIndex) => {
+            if(tile === 672){
+                collisionBlocks.push(new CollisionBlock(tileIndex * 16, rowIndex * 16))
+            }
+        })
+    })
+}

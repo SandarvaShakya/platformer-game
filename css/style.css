@@ -6,7 +6,7 @@
 
 main{
     min-height: 100vh;
-    background-color: gray;
+    position: relative;
 }
 
 .center{
@@ -17,5 +17,11 @@ main{
 
 #canvas{
     border: 1px solid black;
-    max-width: 100%;
+    /* max-width: 100%; */
+    background: transparent;
+}
+
+#canvas-bg{
+    position: absolute;
+    z-index: -1;
 }

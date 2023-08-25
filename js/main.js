@@ -1,74 +1,65 @@
 const canvas = document.querySelector('#canvas')
+const canvasBg = document.querySelector('#canvas-bg')
 /** @type {HTMLCanvasElement} */
 const context = canvas.getContext('2d')
+const context1 = canvasBg.getContext('2d')
 
 // 1024
 canvas.width = 16 * 64 
+canvasBg.width = 16 * 64
 // 512
 canvas.height = 16 * 32
-
-let collisionBlocks = []
-const playerAnimations = {
-    idleRight: {
-        frameRate: 11,
-        frameBuffer: 2,
-        imageSrc: 'assets/player/idle.png'
-    },
-    idleLeft: {
-        frameRate: 11,
-        frameBuffer: 2,
-        imageSrc: 'assets/player/idleLeft.png'
-    },
-    runRight: {
-        frameRate: 11,
-        frameBuffer: 4,
-        imageSrc: 'assets/player/run.png'
-    },
-    runLeft: {
-        frameRate: 11,
-        frameBuffer: 4,
-        imageSrc: 'assets/player/runLeft.png'
-    },
-    jumpRight: {
-        frameRate: 1,
-        frameBuffer: 10,
-        imageSrc: 'assets/player/jump.png'
-    },
-    jumpLeft: {
-        frameRate: 1,
-        frameBuffer: 10,
-        imageSrc: 'assets/player/jumpLeft.png'
-    }
-}
+canvasBg.height = 16 * 32
 
 // The player
 let player = new Player(
-    208, 208, 32, 32, 
-    'assets/player/idle.png', 
+    920, 20, 32, 32, 
+    'assets/player/idleLeft.png', 
     collisionBlocks, 11,
     playerAnimations
 )
-let background = new Sprite('assets/images/level1.png', 0, 0, 1)
+let gameLevel = new Sprite('assets/maps/Map2.png', 0, 0, 1)
+let background = new Background('assets/backgrounds/bg3.png', 0, 0, canvasBg.width, canvasBg.height, context1)
 
-let level1ParsedData = parseArrayIn2D(collisionData1)
-// generation of collision blocks from the collision data
-level1ParsedData.forEach((row, rowIndex) => {
-    row.forEach((tile, tileIndex) => {
-        if(tile === 672){
-            collisionBlocks.push(new CollisionBlock(tileIndex * 16, rowIndex * 16))
-        }
-    })
-})
+addCollisionBlocks()
+let fruits = []
+
+let fruitX = 20
+let fruitY = 200
+for(let j = 0; j < 2; j++){
+    for(let i = 0; i < 5; i++){
+        let fruit = new Fruit(
+            fruitX, fruitY, 
+            fruitAnimations['melon'].imageSrc,
+            17, fruitAnimations
+        )
+        fruits.push(fruit)
+        fruitX += 30
+    }
+    fruitX = 20
+    fruitY -= 40
+}
 
 let animationId
 const animate = () => {
     animationId = requestAnimationFrame(animate)
-    context.clearRect(0, 0, canvas.width, canvas.height)
-    background.draw()
-    // collisionBlocks.forEach(block => {
-    //     block.draw()
-    // })
+    background.update()
+    gameLevel.draw()
+    fruits.forEach(fruit => {
+        fruit.draw()
+
+        if(
+            player.x < fruit.x + fruit.width &&
+            player.x + player.width > fruit.x &&
+            player.y < fruit.y + fruit.height &&
+            player.y + player.height > fruit.y
+        ){
+            fruit.switchSprite('collided')
+        }
+    })
     player.update()
 }
 
-animate()
+window.onload = () => {
+    animate()
+}
