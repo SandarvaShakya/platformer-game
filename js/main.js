@@ -8,8 +8,47 @@ canvas.width = 16 * 64
 canvas.height = 16 * 32
 
 let collisionBlocks = []
-let player = new Player(208, 208, 32, 32, collisionBlocks)
-let background = new Sprite('assets/images/level1.png', 0, 0)
+const playerAnimations = {
+    idleRight: {
+        frameRate: 11,
+        frameBuffer: 2,
+        imageSrc: 'assets/player/idle.png'
+    },
+    idleLeft: {
+        frameRate: 11,
+        frameBuffer: 2,
+        imageSrc: 'assets/player/idleLeft.png'
+    },
+    runRight: {
+        frameRate: 11,
+        frameBuffer: 4,
+        imageSrc: 'assets/player/run.png'
+    },
+    runLeft: {
+        frameRate: 11,
+        frameBuffer: 4,
+        imageSrc: 'assets/player/runLeft.png'
+    },
+    jumpRight: {
+        frameRate: 1,
+        frameBuffer: 10,
+        imageSrc: 'assets/player/jump.png'
+    },
+    jumpLeft: {
+        frameRate: 1,
+        frameBuffer: 10,
+        imageSrc: 'assets/player/jumpLeft.png'
+    }
+}
+
+// The player
+let player = new Player(
+    208, 208, 32, 32, 
+    'assets/player/idle.png', 
+    collisionBlocks, 11,
+    playerAnimations
+)
+let background = new Sprite('assets/images/level1.png', 0, 0, 1)
 
 let level1ParsedData = parseArrayIn2D(collisionData1)
 // generation of collision blocks from the collision data
@@ -26,9 +65,9 @@ const animate = () => {
     animationId = requestAnimationFrame(animate)
     context.clearRect(0, 0, canvas.width, canvas.height)
     background.draw()
-    collisionBlocks.forEach(block => {
-        block.draw()
-    })
+    // collisionBlocks.forEach(block => {
+    //     block.draw()
+    // })
     player.update()
 }
 

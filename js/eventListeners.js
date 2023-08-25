@@ -9,12 +9,10 @@ window.addEventListener('keydown', (event) => {
         case 'a':
             player.isMovingLeft = true
             player.moveLeft()
-            console.log("You are moving to the left beother");
             break
         case 'ArrowLeft':
             player.isMovingLeft = true
             player.moveLeft()
-            console.log("You are moving to the left beother");
             break
         case 'd':
             player.isMovingRight = true
@@ -29,6 +27,12 @@ window.addEventListener('keydown', (event) => {
 
 window.addEventListener('keyup', (event) => {
     switch(event.key){
+        case 'w':
+            player.stopJump()
+            break
+        case ' ': 
+            player.stopJump()
+            break
         case 'a':
             player.isMovingLeft = false
             player.stopLeft()

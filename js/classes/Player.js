@@ -1,4 +1,4 @@
-class Player{
+class Player extends Sprite{
     /**
      * The main character that the user controls
      * 
@@ -8,11 +8,9 @@ class Player{
      * @param {int} height is the height of the player block
      * @param {Array} collisionBlocks are all the collision blocks in the level 
      */
-    constructor(x, y, width, height, collisionBlocks){
+    constructor(x, y, width, height, imgSrc, collisionBlocks, frameRate, animations){
+        super(imgSrc, x, y, frameRate, animations)
         this.canvas = new Game().getCanvas()
-
-        this.x = x
-        this.y = y
         this.width = width
         this.height = height
 
@@ -33,20 +31,23 @@ class Player{
         this.isMovingRight = false
         this.isMovingUp = false
         this.isMovingDown = false
+        this.isFacing = 'right'
     }
 
-    /**
-     * Draws the player on the screen
-     */
-    draw(){
-        context.fillStyle = 'green'
-        context.fillRect(this.x, this.y, this.width, this.height)
-    }
+    // /**
+    //  * Draws the player on the screen
+    //  */
+    // draw(){
+    //     context.fillStyle = 'green'
+    //     context.fillRect(this.x, this.y, this.width, this.height)
+    // }
 
     /**
      * All visible modifications to the player are done
      */
     update(){
+        // context.fillStyle = 'blue'
+        // context.fillRect(this.x, this.y, this.width, this.height)
         this.x += this.velocity.x
         this.checkXCollision()
         this.applyGravity()
@@ -124,18 +125,32 @@ class Player{
         }
     }
 
+    switchSprite(spriteName){
+        if(this.image === this.animations[spriteName].image) return
+        this.currentFrame = 0
+        this.image = this.animations[spriteName].image
+        this.frameRate = this.animations[spriteName].frameRate
+        this.frameBuffer = this.animations[spriteName].frameBuffer
+    }
+
     /**
      * Makes the player move to the left i.e.
      * decrease the x value of the player
      */
     moveLeft(){
-        if(this.isMovingLeft) this.velocity.x = -4
+        if(this.isMovingLeft){
+            this.switchSprite('runLeft')
+            this.isFacing = 'left'
+            this.velocity.x = -4
+        } 
     }
 
     /**
      * Stops the player from moving to the left
      */
     stopLeft(){
+        this.switchSprite('idleLeft')
+        this.isFacing = 'left'
         this.velocity.x = 0
     }
 
@@ -144,13 +159,19 @@ class Player{
      * increase the x value of the player
      */
     moveRight(){
-        if(this.isMovingRight) this.velocity.x = 4
+        if(this.isMovingRight){
+            this.switchSprite('runRight');
+            this.isFacing = 'right'
+            this.velocity.x = 4
+        } 
     }
 
     /**
      * Stops the player from moving to the right
      */
     stopRight(){
+        this.switchSprite('idleRight')
+        this.isFacing = 'right'
         this.velocity.x = 0
     }
 
@@ -159,6 +180,16 @@ class Player{
      * decrease the y value of the player
      */
     jump(){
+        if(this.isFacing === 'right') this.switchSprite('jumpRight')
+        if(this.isFacing === 'left') this.switchSprite('jumpLeft')
         this.velocity.y = -16
+    }
+
+    /**
+     * Changes the sprite after jumping
+     */
+    stopJump(){
+        if(this.isFacing === 'right') this.switchSprite('idleRight')
+        if(this.isFacing === 'left') this.switchSprite('idleLeft')
     }
 }
