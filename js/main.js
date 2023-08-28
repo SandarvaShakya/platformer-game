@@ -62,20 +62,11 @@ const animate = () => {
 
     // collision with traps
     if(hasCollided(player, sawTrap) || hasCollided(player, spike)){
-        console.log(player.isFacing);
-        if(player.isFacing === 'left'){
-            player.isHit = true
-            setTimeout(() => {
-                player.isHit = false
-                player.switchSprite('idleLeft')
-            }, 2000)
-        }else if(player.isFacing === 'right'){
-            player.isHit = true
-            setTimeout(() => {
-                player.isHit = false
-                player.switchSprite('idleRight')
-            }, 2000)
+        player.decreaseHealth()
+        if(player.health === 0){
+            cancelAnimationFrame(animationId)
         }
+        console.log(player.health);
     }
     player.update()
 }

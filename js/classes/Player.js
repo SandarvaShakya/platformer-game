@@ -36,6 +36,9 @@ class Player extends Sprite{
         this.isMovingDown = false
         this.isFacing = 'left'
         this.isHit = false
+        this.isInvincible = false
+
+        this.health = 3
     }
 
     // /**
@@ -189,8 +192,12 @@ class Player extends Sprite{
      * decrease the y value of the player
      */
     jump(){
-        if(this.isFacing === 'right') this.switchSprite('jumpRight')
-        if(this.isFacing === 'left') this.switchSprite('jumpLeft')
+        if(this.isFacing === 'right'){
+            if(!this.isHit) this.switchSprite('jumpRight')
+        } 
+        if(this.isFacing === 'left'){
+            if(!this.isHit) this.switchSprite('jumpLeft')
+        }
         this.velocity.y = -16
     }
 
@@ -198,7 +205,21 @@ class Player extends Sprite{
      * Changes the sprite after jumping
      */
     stopJump(){
-        if(this.isFacing === 'right') this.switchSprite('idleRight')
-        if(this.isFacing === 'left') this.switchSprite('idleLeft')
+        if(this.isFacing === 'right'){
+            if(!this.isHit) this.switchSprite('idleRight')
+        } 
+        if(this.isFacing === 'left'){
+            if(!this.isHit) this.switchSprite('idleLeft')
+        }
+    }
+
+    decreaseHealth(){
+        if(!this.isHit){
+            player.isHit = true
+            this.health -= 1
+            setTimeout(() => {
+                this.isHit = false
+            }, 2000)
+        }
     }
 }

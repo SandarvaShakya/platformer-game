@@ -16,14 +16,4 @@ class Trap extends Sprite{
         this.frameBuffer = this.animations[spriteName].frameBuffer
         this.loop = this.animations[spriteName].loop
     }
-
-    update(){
-        this.x += this.velocity.x
-        if(this.x >= this.originalX + 160){
-            this.velocity.x = -4
-        }else if(this.x <= this.originalX - 160){
-            this.velocity.x = 4
-        }
-        this.draw()
-    }
 }
