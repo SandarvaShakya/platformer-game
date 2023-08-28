@@ -49,11 +49,14 @@ const animate = () => {
     gameLevel.draw()
 
     // collision with fruits
-    fruits.forEach(fruit => {
+    fruits.forEach((fruit, fruitIndex) => {
         fruit.draw()
 
         if(hasCollided(player, fruit)){
             fruit.switchSprite('collided')
+            fruits.splice(fruitIndex, 1)
+            player.increaseScore()
+            console.log(player.score);
         }
     })
 
@@ -66,7 +69,6 @@ const animate = () => {
         if(player.health === 0){
             cancelAnimationFrame(animationId)
         }
-        console.log(player.health);
     }
     player.update()
 }

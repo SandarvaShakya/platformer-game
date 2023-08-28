@@ -36,9 +36,9 @@ class Player extends Sprite{
         this.isMovingDown = false
         this.isFacing = 'left'
         this.isHit = false
-        this.isInvincible = false
-
+        
         this.health = 3
+        this.score = 0
     }
 
     // /**
@@ -221,5 +221,9 @@ class Player extends Sprite{
                 this.isHit = false
             }, 2000)
         }
+    }
+
+    increaseScore(){
+        this.score += 100
     }
 }
