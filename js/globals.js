@@ -93,6 +93,28 @@ const sawAnimations = {
     }
 }
 
+// All Checkpoint animations
+const checkPointAnimations = {
+    checkpoint:{
+        frameRate: 1,
+        frameBuffer: 4,
+        loop: false,
+        imageSrc: 'assets/checkpoint/checkpoint.png'
+    },
+    checkpointReached: {
+        frameRate: 26,
+        frameBuffer: 4,
+        loop: false,
+        imageSrc: 'assets/checkpoint/outCheckPoint.png'
+    },
+    checkpointIdle: {
+        frameRate: 10,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/checkpoint/IdleCheckPoint.png'
+    },
+}
+
 // All collision blocks
 let collisionBlocks = []
 // All fruits

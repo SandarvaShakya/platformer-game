@@ -24,36 +24,33 @@ let background = new Background('assets/backgrounds/bg3.png', 0, 0, canvasBg.wid
 addCollisionBlocks()
 generateFruits('orange')
 
-const checkPointAnimations = {
-    checkpoint:{
+// All end animations
+const endAnimations = {
+    finish:{
         frameRate: 1,
         frameBuffer: 4,
         loop: false,
-        imageSrc: 'assets/checkpoint/checkpoint.png'
+        imageSrc: 'assets/end/end.png'
     },
-    checkpointReached: {
-        frameRate: 26,
-        frameBuffer: 4,
-        loop: false,
-        imageSrc: 'assets/checkpoint/outCheckPoint.png'
-    },
-    checkpointIdle: {
-        frameRate: 10,
+    endReached: {
+        frameRate: 8,
         frameBuffer: 4,
         loop: true,
-        imageSrc: 'assets/checkpoint/IdleCheckPoint.png'
-    },
+        imageSrc: 'assets/end/endPick.png'
+    }
 }
 
 let sawTrap = new Saw(300, 160, 'assets/traps/saw/on.png', 8, sawAnimations)
 let spike = new Trap(750, 304, 'assets/traps/spikes/idle.png', 1)
 let checkpoint = new CheckPoint(460, 289, 'assets/checkpoint/checkpoint.png', 1, checkPointAnimations)
+let finish = new Sprite('assets/end/end.png', 20, 304, 1, endAnimations)
 
 let animationId
 const animate = () => {
     animationId = requestAnimationFrame(animate)
     background.update()
     gameLevel.draw()
+    finish.draw()
 
     // collision with fruits
     fruits.forEach((fruit, fruitIndex) => {
@@ -64,12 +61,14 @@ const animate = () => {
             if(!fruit.hasBeenEaten){
                 player.increaseScore()
                 fruit.hasBeenEaten = true
-            }
-            if(fruit.currentFrame === fruit.frameRate - 1){
-                fruits.splice(fruitIndex, 1)
+                console.log(player.score);
             }
         }
     })
+
+    if(hasCollided(player, finish)){
+        if(player.score === 1000) finish.switchSprite('endReached')
+    }
 
     checkpoint.draw()
     sawTrap.update()
