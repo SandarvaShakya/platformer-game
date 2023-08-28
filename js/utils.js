@@ -41,6 +41,12 @@ const generateFruits = (fruitType) => {
     }
 }
 
+/**
+ * collision detection of the objects
+ * @param {object} object1 any square objects
+ * @param {object} object2 any two square objects
+ * @returns true if the objects has collided
+ */
 const hasCollided = (object1, object2) => {
     if(
         object1.x + object1.width >= object2.x &&
@@ -51,4 +57,30 @@ const hasCollided = (object1, object2) => {
         return true
     }
     return false
+}
+
+const displayScore = () => {
+    context.fillStyle = 'white'
+    context.font = '16px Arial'
+    context.fillText(`Score: ${player.score}`, 18, 56)
+}
+
+const displayGameover = () => {
+    let gameoverImg = new Image()
+    gameoverImg.src = 'assets/gameover.png'
+    console.log("Game over brother");
+    gameoverImg.onload = () => {
+        context.drawImage(gameoverImg, 0, 0)
+    }
+}
+
+const displayNextLevel = () => {
+    let nextLevelImg = new Image()
+    nextLevelImg.src = 'assets/nextLevel.png'
+    nextLevelImg.onload = () => {
+        context.drawImage(nextLevelImg, 0, 0)
+        context.font = '32px Arial'
+        context.fillStyle = 'white'
+        context.fillText(`${player.score}`, 566, 188)
+    }
 }

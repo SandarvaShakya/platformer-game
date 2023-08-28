@@ -44,16 +44,26 @@ let sawTrap = new Saw(300, 160, 'assets/traps/saw/on.png', 8, sawAnimations)
 let spike = new Trap(750, 304, 'assets/traps/spikes/idle.png', 1)
 let checkpoint = new CheckPoint(460, 289, 'assets/checkpoint/checkpoint.png', 1, checkPointAnimations)
 let finish = new Sprite('assets/end/end.png', 20, 304, 1, endAnimations)
+// let heart = new Heart(18, 18, 'assets/heart/heart.png')
+let hearts = []
 
+for(let i = 0; i < player.health; i++){
+    let heart = new Heart(18 + i * 22, 18, 'assets/heart/heart.png')
+    hearts.push(heart)
+}
+let targetScore = 1000
 let animationId
 const animate = () => {
     animationId = requestAnimationFrame(animate)
     background.update()
     gameLevel.draw()
     finish.draw()
+    hearts.forEach(heart => {
+        heart.draw()
+    })
 
     // collision with fruits
-    fruits.forEach((fruit, fruitIndex) => {
+    fruits.forEach(fruit => {
         fruit.draw()
 
         if(hasCollided(player, fruit)){
@@ -61,13 +71,18 @@ const animate = () => {
             if(!fruit.hasBeenEaten){
                 player.increaseScore()
                 fruit.hasBeenEaten = true
-                console.log(player.score);
             }
         }
     })
 
     if(hasCollided(player, finish)){
-        if(player.score === 1000) finish.switchSprite('endReached')
+        if(player.score === targetScore){
+            finish.switchSprite('endReached')
+            if(finish.currentFrame === finish.frameRate - 1){
+                displayNextLevel()
+                cancelAnimationFrame(animationId)
+            } 
+        } 
     }
 
     checkpoint.draw()
@@ -90,11 +105,15 @@ const animate = () => {
     // collision with traps
     if(hasCollided(player, sawTrap) || hasCollided(player, spike)){
         player.decreaseHealth()
+        hearts.splice(player.health, 1)
         if(player.health === 0){
+            displayGameover()
             cancelAnimationFrame(animationId)
         }
     }
     player.update()
+    console.log(player.isMoving)
+    displayScore()
 }
 
 window.onload = () => {

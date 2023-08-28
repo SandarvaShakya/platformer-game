@@ -35,6 +35,7 @@ class Player extends Sprite{
         this.isMovingUp = false
         this.isMovingDown = false
         this.isFacing = 'left'
+        this.isMoving = false 
         this.isHit = false
         this.checkpointReached = false
         
@@ -60,6 +61,7 @@ class Player extends Sprite{
         this.checkXCollision()
         this.applyGravity()
         this.checkYCollision()
+        this.checkHit()
         this.draw()
     }
 
@@ -133,15 +135,38 @@ class Player extends Sprite{
         }
     }
 
+    // Checks the collision sprite for hit
+    checkHit(){
+        if(this.isHit){
+            if(this.isFacing === 'left'){
+                this.switchSprite('hitLeft')
+            }
+            if(this.isFacing === 'right'){
+                this.switchSprite('hit')
+            }
+        }else{
+            if(this.isFacing === 'left' && this.isMoving){
+                this.switchSprite('runLeft')
+            }else if(this.isFacing === 'left'){
+                this.switchSprite('idleLeft')
+            }
+            if(this.isFacing === 'right' && this.isMoving){
+                this.switchSprite('runRight')
+            }else if(this.isFacing === 'right'){
+                this.switchSprite('idleRight')
+            }
+        }
+    }
+
     /**
      * Makes the player move to the left i.e.
      * decrease the x value of the player
      */
     moveLeft(){
         if(this.isMovingLeft){
-            if(!this.isHit) this.switchSprite('runLeft')
-            else this.switchSprite('hitLeft')
+            this.switchSprite('runLeft')
             this.isFacing = 'left'
+            this.isMoving = true
             this.velocity.x = -4
         } 
     }
@@ -150,9 +175,9 @@ class Player extends Sprite{
      * Stops the player from moving to the left
      */
     stopLeft(){
-        if(!this.isHit) this.switchSprite('idleLeft')
-        else this.switchSprite('hitLeft')
+        this.switchSprite('idleLeft')
         this.isFacing = 'left'
+        this.isMoving = false
         this.velocity.x = 0
     }
 
@@ -162,9 +187,9 @@ class Player extends Sprite{
      */
     moveRight(){
         if(this.isMovingRight){
-            if(!this.isHit) this.switchSprite('runRight')
-            else this.switchSprite('hit')
+            this.switchSprite('runRight')
             this.isFacing = 'right'
+            this.isMoving = true
             this.velocity.x = 4
         } 
     }
@@ -173,9 +198,9 @@ class Player extends Sprite{
      * Stops the player from moving to the right
      */
     stopRight(){
-        if(!this.isHit) this.switchSprite('idleRight')
-        else this.switchSprite('hit')
+        this.switchSprite('idleRight')
         this.isFacing = 'right'
+        this.isMoving = false
         this.velocity.x = 0
     }
 
