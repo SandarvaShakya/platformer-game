@@ -77,6 +77,22 @@ const playerAnimations = {
     }
 }
 
+// All Saw animations
+const sawAnimations = {
+    off:{
+        frameRate: 1,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/traps/saw/off.png'
+    },
+    on: {
+        frameRate: 8,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/traps/saw/on.png'
+    }
+}
+
 // All collision blocks
 let collisionBlocks = []
 // All fruits

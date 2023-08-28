@@ -24,23 +24,30 @@ let background = new Background('assets/backgrounds/bg3.png', 0, 0, canvasBg.wid
 addCollisionBlocks()
 generateFruits('orange')
 
-const sawAnimations = {
-    off:{
+const checkPointAnimations = {
+    checkpoint:{
         frameRate: 1,
         frameBuffer: 4,
-        loop: true,
-        imageSrc: 'assets/traps/saw/off.png'
+        loop: false,
+        imageSrc: 'assets/checkpoint/checkpoint.png'
     },
-    on: {
-        frameRate: 8,
+    checkpointReached: {
+        frameRate: 26,
+        frameBuffer: 4,
+        loop: false,
+        imageSrc: 'assets/checkpoint/outCheckPoint.png'
+    },
+    checkpointIdle: {
+        frameRate: 10,
         frameBuffer: 4,
         loop: true,
-        imageSrc: 'assets/traps/saw/on.png'
-    }
+        imageSrc: 'assets/checkpoint/IdleCheckPoint.png'
+    },
 }
 
 let sawTrap = new Saw(300, 160, 'assets/traps/saw/on.png', 8, sawAnimations)
 let spike = new Trap(750, 304, 'assets/traps/spikes/idle.png', 1)
+let checkpoint = new CheckPoint(460, 289, 'assets/checkpoint/checkpoint.png', 1, checkPointAnimations)
 
 let animationId
 const animate = () => {
@@ -54,14 +61,32 @@ const animate = () => {
 
         if(hasCollided(player, fruit)){
             fruit.switchSprite('collided')
-            fruits.splice(fruitIndex, 1)
-            player.increaseScore()
-            console.log(player.score);
+            if(!fruit.hasBeenEaten){
+                player.increaseScore()
+                fruit.hasBeenEaten = true
+            }
+            if(fruit.currentFrame === fruit.frameRate - 1){
+                fruits.splice(fruitIndex, 1)
+            }
         }
     })
 
+    checkpoint.draw()
     sawTrap.update()
     spike.draw()
+
+    // check collision with the checkpoint
+    if(hasCollided(player, checkpoint)){
+        if(!player.checkpointReached){
+            checkpoint.switchSprite('checkpointReached')
+            player.checkpointReached = true
+        }
+    }
+
+    // change checkpoint sprite after the animation of open is finished
+    if(checkpoint.currentFrame === checkpoint.frameRate - 1 && player.checkpointReached){
+            checkpoint.switchSprite('checkpointIdle')
+    }
 
     // collision with traps
     if(hasCollided(player, sawTrap) || hasCollided(player, spike)){

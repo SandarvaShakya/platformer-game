@@ -36,6 +36,7 @@ class Player extends Sprite{
         this.isMovingDown = false
         this.isFacing = 'left'
         this.isHit = false
+        this.checkpointReached = false
         
         this.health = 3
         this.score = 0
@@ -130,15 +131,6 @@ class Player extends Sprite{
                 }
             }
         }
-    }
-
-    switchSprite(spriteName){
-        if(this.image === this.animations[spriteName].image) return
-        this.currentFrame = 0
-        this.image = this.animations[spriteName].image
-        this.frameRate = this.animations[spriteName].frameRate
-        this.frameBuffer = this.animations[spriteName].frameBuffer
-        this.loop = this.animations[spriteName].loop
     }
 
     /**
