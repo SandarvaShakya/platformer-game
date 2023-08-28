@@ -22,41 +22,61 @@ let gameLevel = new Sprite('assets/maps/Map2.png', 0, 0, 1)
 let background = new Background('assets/backgrounds/bg3.png', 0, 0, canvasBg.width, canvasBg.height, context1)
 
 addCollisionBlocks()
-let fruits = []
+generateFruits('orange')
 
-let fruitX = 20
-let fruitY = 200
-for(let j = 0; j < 2; j++){
-    for(let i = 0; i < 5; i++){
-        let fruit = new Fruit(
-            fruitX, fruitY, 
-            fruitAnimations['melon'].imageSrc,
-            17, fruitAnimations
-        )
-        fruits.push(fruit)
-        fruitX += 30
+const sawAnimations = {
+    off:{
+        frameRate: 1,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/traps/saw/off.png'
+    },
+    on: {
+        frameRate: 8,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/traps/saw/on.png'
     }
-    fruitX = 20
-    fruitY -= 40
 }
+
+let sawTrap = new Saw(300, 160, 'assets/traps/saw/on.png', 8, sawAnimations)
+let spike = new Trap(750, 304, 'assets/traps/spikes/idle.png', 1)
 
 let animationId
 const animate = () => {
     animationId = requestAnimationFrame(animate)
     background.update()
     gameLevel.draw()
+
+    // collision with fruits
     fruits.forEach(fruit => {
         fruit.draw()
 
-        if(
-            player.x < fruit.x + fruit.width &&
-            player.x + player.width > fruit.x &&
-            player.y < fruit.y + fruit.height &&
-            player.y + player.height > fruit.y
-        ){
+        if(hasCollided(player, fruit)){
             fruit.switchSprite('collided')
         }
     })
+
+    sawTrap.update()
+    spike.draw()
+
+    // collision with traps
+    if(hasCollided(player, sawTrap) || hasCollided(player, spike)){
+        console.log(player.isFacing);
+        if(player.isFacing === 'left'){
+            player.isHit = true
+            setTimeout(() => {
+                player.isHit = false
+                player.switchSprite('idleLeft')
+            }, 2000)
+        }else if(player.isFacing === 'right'){
+            player.isHit = true
+            setTimeout(() => {
+                player.isHit = false
+                player.switchSprite('idleRight')
+            }, 2000)
+        }
+    }
     player.update()
 }
 

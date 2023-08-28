@@ -62,8 +62,22 @@ const playerAnimations = {
         frameBuffer: 4,
         loop: true,
         imageSrc: 'assets/player/jumpLeft.png'
+    },
+    hit:{
+        frameRate: 7,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/hit.png'
+    },
+    hitLeft: {
+        frameRate: 7,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/hitLeft.png'
     }
 }
 
 // All collision blocks
 let collisionBlocks = []
+// All fruits
+let fruits = []

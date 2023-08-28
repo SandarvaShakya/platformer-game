@@ -35,6 +35,7 @@ class Player extends Sprite{
         this.isMovingUp = false
         this.isMovingDown = false
         this.isFacing = 'left'
+        this.isHit = false
     }
 
     // /**
@@ -143,7 +144,8 @@ class Player extends Sprite{
      */
     moveLeft(){
         if(this.isMovingLeft){
-            this.switchSprite('runLeft')
+            if(!this.isHit) this.switchSprite('runLeft')
+            else this.switchSprite('hitLeft')
             this.isFacing = 'left'
             this.velocity.x = -4
         } 
@@ -153,7 +155,8 @@ class Player extends Sprite{
      * Stops the player from moving to the left
      */
     stopLeft(){
-        this.switchSprite('idleLeft')
+        if(!this.isHit) this.switchSprite('idleLeft')
+        else this.switchSprite('hitLeft')
         this.isFacing = 'left'
         this.velocity.x = 0
     }
@@ -164,7 +167,8 @@ class Player extends Sprite{
      */
     moveRight(){
         if(this.isMovingRight){
-            this.switchSprite('runRight');
+            if(!this.isHit) this.switchSprite('runRight')
+            else this.switchSprite('hit')
             this.isFacing = 'right'
             this.velocity.x = 4
         } 
@@ -174,7 +178,8 @@ class Player extends Sprite{
      * Stops the player from moving to the right
      */
     stopRight(){
-        this.switchSprite('idleRight')
+        if(!this.isHit) this.switchSprite('idleRight')
+        else this.switchSprite('hit')
         this.isFacing = 'right'
         this.velocity.x = 0
     }
