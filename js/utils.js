@@ -11,34 +11,64 @@ const parseArrayIn2D = (array) => {
     return rows
 }
 
-const addCollisionBlocks = () => {
-    let parsedData = parseArrayIn2D(collisionData2)
+const addCollisionBlocks = (collisionData, block) => {
+    let parsedData = parseArrayIn2D(collisionData)
     // generation of collision blocks from the collision data
     parsedData.forEach((row, rowIndex) => {
         row.forEach((tile, tileIndex) => {
-            if(tile === 672){
+            if(tile === block){
                 collisionBlocks.push(new CollisionBlock(tileIndex * 16, rowIndex * 16))
             }
         })
     })
 }
 
-const generateFruits = (fruitType) => {
-    let fruitX = 20
-    let fruitY = 200
-    for(let j = 0; j < 2; j++){
-        for(let i = 0; i < 5; i++){
-            let fruit = new Fruit(
-                fruitX, fruitY, 
-                fruitAnimations[fruitType].imageSrc,
-                17, fruitAnimations
-            )
-            oranges.push(fruit)
-            fruitX += 30
-        }
-        fruitX = 20
-        fruitY -= 40
+const generateFruits = (fruitType, x, y, shape, rows, columns) => {
+    let fruitX = x
+    let fruitY = y
+
+    switch(shape){
+        case 'rect':
+            for(let j = 0; j < rows; j++){
+                for(let i = 0; i < columns; i++){
+                    let fruit = new Fruit(
+                        fruitX, fruitY, 
+                        fruitAnimations[fruitType].imageSrc,
+                        17, fruitAnimations,
+                        fruitType
+                    )
+                    fruits.push(fruit)
+                    fruitX += 30
+                }
+                fruitX = x
+                fruitY -= 40
+            }
+            break
+        case 'triangle':
+            for(let j = 0; j < rows; j++){
+                for(let i = 0; i < (columns - j); i++){
+                    let fruit = new Fruit(
+                        fruitX, fruitY, 
+                        fruitAnimations[fruitType].imageSrc,
+                        17, fruitAnimations,
+                        fruitType
+                    );
+                    fruits.push(fruit);
+                    fruitX += 40;
+                }
+                // fruitX = x + (15 * j);
+                fruitX = x + 20 + (20 * j)
+                fruitY -= 30;
+            }
+            break
     }
+}
+
+const generateTargetScore = () => {
+    TARGET_SCORE = fruits.reduce((sum, currentFruit) => {
+        sum += currentFruit.scorePerFruit
+        return sum
+    }, 0)
 }
 
 /**
@@ -86,4 +116,9 @@ const displayNextLevel = () => {
         context.fillStyle = 'white'
         context.fillText(`${player.score}`, 566, 188)
     }
+}
+
+const measureXDistance = (obj1, obj2) => {
+    let distance = Math.floor((Math.sqrt(Math.pow((obj2.x - obj1.x),2) + Math.pow((obj2.y - obj1.y), 2))))
+    return distance
 }

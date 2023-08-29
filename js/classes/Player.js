@@ -49,6 +49,7 @@ class Player extends Sprite{
     // draw(){
     //     context.fillStyle = 'green'
     //     context.fillRect(this.x, this.y, this.width, this.height)
+    //     super.draw()
     // }
 
     /**
@@ -240,7 +241,7 @@ class Player extends Sprite{
         }
     }
 
-    increaseScore(){
-        this.score += 100
+    increaseScore(scorePerFruit){
+        this.score += scorePerFruit
     }
 }

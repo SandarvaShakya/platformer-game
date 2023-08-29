@@ -22,7 +22,7 @@ const fruitAnimations = {
         frameRate: 17,
         frameBuffer: 4,
         loop: true,
-        imageSrc: 'assets/fruits/pineapple.png'
+        imageSrc: 'assets/fruits/pineapple.png',
     }
 }
 
@@ -131,11 +131,36 @@ const endAnimations = {
     }
 }
 
+const rhinoAnimations = {
+    idle:{
+        frameRate: 11,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/enemies/rhino/idle.png'
+    },
+    idleRight:{
+        frameRate: 11,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/enemies/rhino/idleRight.png'
+    },
+    runLeft: {
+        frameRate: 6,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/enemies/rhino/runLeft.png'
+    },
+    runRight: {
+        frameRate: 6,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/enemies/rhino/runRight.png'
+    }
+}
+
 // All collision blocks
 let collisionBlocks = []
 // All fruits
-let melons = []
-let oranges = []
-let pineapples = []
+let fruits = []
 
-let TARGET_SCORE = 1000
+let TARGET_SCORE

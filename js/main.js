@@ -12,28 +12,15 @@ canvas.height = 16 * 32
 canvasBg.height = 16 * 32
 
 // The player
-let player = new Player(
-    920, 20, 32, 32, 
-    'assets/player/idleLeft.png', 
-    collisionBlocks, 11,
-    playerAnimations
-)
-let gameLevel = new Sprite('assets/maps/Map2.png', 0, 0, 1)
-let background = new Background('assets/backgrounds/bg3.png', 0, 0, canvasBg.width, canvasBg.height, context1)
-
-addCollisionBlocks()
-generateFruits('orange')
-
-let sawTrap = new Saw(300, 160, 'assets/traps/saw/on.png', 8, sawAnimations)
-let spike = new Trap(750, 304, 'assets/traps/spikes/idle.png', 1)
-let checkpoint = new CheckPoint(460, 289, 'assets/checkpoint/checkpoint.png', 1, checkPointAnimations)
-let finish = new Sprite('assets/end/end.png', 20, 304, 1, endAnimations)
-
+let player
+let gameMap
+let background
+let sawTrap
+let spike
+let checkpoint
+let finish
+let enemy
 let hearts = []
-for(let i = 0; i < player.health; i++){
-    let heart = new Sprite('assets/heart/heart.png', 18 + i * 22, 18, 1)
-    hearts.push(heart)
-}
 
 // Buttons
 let restartButton = new Sprite('assets/buttons/Restart.png', canvas.width - 38, canvas.height - 36, 1)
@@ -41,79 +28,205 @@ let backButton = new Sprite('assets/buttons/Backmedium.png', canvas.width - 38, 
 let levelsButton = new Sprite('assets/buttons/Levels.png', canvas.width - 38, canvas.height - 36 - 44, 1)
 let volumeButton = new Sprite('assets/buttons/Volume.png', canvas.width - 38, canvas.height - 36 - 66, 1)
 
+levels = {
+    1: {
+        init: () => {
+            // map
+            gameMap = new Sprite('assets/maps/Map2.png', 0, 0, 1)
+            background = new Background('assets/backgrounds/bg3.png', 0, 0, canvasBg.width, canvasBg.height, context1)
+
+            // traps
+            sawTrap = new Saw(300, 160, 'assets/traps/saw/on.png', 8, sawAnimations, 1)
+            spike = new Trap(750, 304, 'assets/traps/spikes/idle.png', 1)
+
+            // fruits
+
+            // checkpoint end finish
+            checkpoint = new CheckPoint(460, 289, 'assets/checkpoint/checkpoint.png', 1, checkPointAnimations)
+            finish = new Sprite('assets/end/end.png', 20, 304, 1, endAnimations)
+
+            // player
+            player = new Player(920, 20, 32, 32, 'assets/player/idleLeft.png', collisionBlocks, 11,playerAnimations)
+            
+            for(let i = 0; i < player.health; i++){
+                let heart = new Sprite('assets/heart/heart.png', 18 + i * 22, 18, 1)
+                hearts.push(heart)
+            }
+
+            addCollisionBlocks(collisionData1, 672)
+            generateFruits('orange', 20, 200, 'rect', 2, 5)
+            generateTargetScore()
+            animate()
+        }
+    },
+    2: {
+        init: () => {
+            collisionBlocks = []
+            // map
+            gameMap = new Sprite('assets/maps/Map1.png', 0, 0, 1)
+            background = new Background('assets/backgrounds/bg1.png', 0, 0, canvasBg.width, canvasBg.height, context1)
+
+            // traps
+            sawTrap = new Saw(180, 160, 'assets/traps/saw/on.png', 8, sawAnimations, 2)
+            spike = new Trap(750, 304, 'assets/traps/spikes/idle.png', 1)
+
+            enemy = new Enemy(950, 205, 'assets/enemies/rhino/idle.png', 11, rhinoAnimations)
+
+            // checkpoint and finish
+            checkpoint = null
+            finish = new Sprite('assets/end/end.png', 20, 256, 1, endAnimations)
+
+            // player
+            player = new Player(100, 20, 32, 32, 'assets/player/idleLeft.png', collisionBlocks, 11,playerAnimations)
+            player.isFacing = 'right'
+            
+            for(let i = 0; i < player.health; i++){
+                let heart = new Sprite('assets/heart/heart.png', 18 + i * 22, 18, 1)
+                hearts.push(heart)
+            }
+            addCollisionBlocks(collisionData2, 773)
+            fruits = []
+            generateFruits('pineapple', 882, 294, 'rect', 2, 3)
+            generateFruits('orange', 260, 110, 'triangle', 3, 3)
+            generateTargetScore()
+
+            console.log(fruits);
+            animate()
+        }
+
+    }
+}
+
+
 let animationId
 const animate = () => {
     animationId = requestAnimationFrame(animate)
+    
+    // background and map
     background.update()
-    gameLevel.draw()
+    gameMap.draw()
+    // collisionBlocks.forEach(block => {
+    //     block.draw()
+    // })
+
+    // constant buttons
     restartButton.draw()
     backButton.draw()
     levelsButton.draw()
     volumeButton.draw()
     displayScore()
-    finish.draw()
-    checkpoint.draw()
     hearts.forEach(heart => {
         heart.draw()
     })
 
     // collision with fruits
-    oranges.forEach(fruit => {
+    fruits && fruits.forEach(fruit => {
         fruit.draw()
 
         if(hasCollided(player, fruit)){
             fruit.switchSprite('collided')
             if(!fruit.hasBeenEaten){
-                player.increaseScore()
+                player.increaseScore(fruit.scorePerFruit)
                 fruit.hasBeenEaten = true
             }
         }
     })
 
+    // Traps
+    sawTrap && sawTrap.update()
+    spike && spike.draw()
+
+    // Enemies
+    enemy && enemy.draw()
+
+    if(spike){
+         // collision with spike
+        if(hasCollided(player, spike)){
+            player.decreaseHealth()
+            hearts.splice(player.health, 1)
+            if(player.health === 0){
+                displayGameover()
+                gameState = 'gameover'
+                cancelAnimationFrame(animationId)
+            }
+        }
+    }
+
+    if(sawTrap){
+        // collision with traps
+        if(hasCollided(player, sawTrap)){
+            player.decreaseHealth()
+            hearts.splice(player.health, 1)
+            if(player.health === 0){
+                displayGameover()
+                gameState = 'gameover'
+                cancelAnimationFrame(animationId)
+            }
+        }
+    }
+
+    finish.draw()
+    if(player.score === TARGET_SCORE){
+        finish.switchSprite('endReached')
+    }
+
     if(hasCollided(player, finish)){
         if(player.score === TARGET_SCORE){
-            finish.switchSprite('endReached')
             if(finish.currentFrame === finish.frameRate - 1){
                 displayNextLevel()
+                gameState = 'next-level'
                 cancelAnimationFrame(animationId)
-            } 
-        } 
+            }
+        }
     }
-    sawTrap.update()
-    spike.draw()
 
+
+    checkpoint && checkpoint.draw()
     // check collision with the checkpoint
-    if(hasCollided(player, checkpoint)){
-        if(!player.checkpointReached){
-            checkpoint.switchSprite('checkpointReached')
-            player.checkpointReached = true
-        }
-    }
 
-    // change checkpoint sprite after the animation of open is finished
-    if(checkpoint.currentFrame === checkpoint.frameRate - 1 && player.checkpointReached){
+    if(checkpoint){
+        if(hasCollided(player, checkpoint)){
+            if(!player.checkpointReached){
+                checkpoint.switchSprite('checkpointReached')
+                player.checkpointReached = true
+            }
+        }
+
+        // change checkpoint sprite after the animation of open is finished
+        if(checkpoint.currentFrame === checkpoint.frameRate - 1 && player.checkpointReached){
             checkpoint.switchSprite('checkpointIdle')
-    }
-
-    // collision with traps
-    if(hasCollided(player, sawTrap) || hasCollided(player, spike)){
-        player.decreaseHealth()
-        hearts.splice(player.health, 1)
-        if(player.health === 0){
-            displayGameover()
-            cancelAnimationFrame(animationId)
         }
     }
+
     player.update()
+
+    if(enemy){
+        enemy.update()
+
+        if(hasCollided(player, enemy)){
+            player.decreaseHealth()
+            hearts.splice(player.health, 1)
+            if(player.health === 0){
+                displayGameover()
+                gameState = 'gameover'
+                cancelAnimationFrame(animationId)
+            }
+        }
+
+        if(measureXDistance(player, enemy) < 140){
+            enemy.isClose = true
+        }else{
+            enemy.isClose = false
+        }
+    }
 }
 
-window.onload = () => {
-    showMainMenu()
-}
-
-let mainBackground = new Background('assets/backgrounds/bg1.png', 0, 0, canvasBg.width, canvasBg.height, context1)
-let mainMenuImage = new Sprite('assets/main-menu.png', 0, -60, 1)
+let mainBackground
+let mainMenuImage
 const showMainMenu = () => {
+    gameState = 'main-menu'
+    mainBackground = new Background('assets/backgrounds/bg1.png', 0, 0, canvasBg.width, canvasBg.height, context1)
+    mainMenuImage = new Sprite('assets/main-menu.png', 0, -60, 1)
     animateBg()
 }
 
@@ -137,10 +250,12 @@ canvas.addEventListener("click", function(event) {
         mouseX >= 289 &&
         mouseX <= 719 &&
         mouseY >= 260 &&
-        mouseY <= 341
+        mouseY <= 341 &&
+        gameState === 'main-menu'
     ){
         cancelAnimationFrame(bgId)
-        animate()
+        levels[1].init()
+        gameState = 'playing'
         console.log("You pressed play");
     }
 
@@ -149,8 +264,49 @@ canvas.addEventListener("click", function(event) {
         mouseX >= 289 &&
         mouseX <= 719 &&
         mouseY >= 370 &&
-        mouseY <= 449
+        mouseY <= 449 &&
+        gameState === 'main-menu'
     ){
+        gameState = 'playing'
         console.log("You pressed Choose player");
     }
+
+    // check for back press
+    if(
+        mouseX >= 361 &&
+        mouseX <= 417 &&
+        mouseY >= 241 &&
+        mouseY <= 285 &&
+        (gameState === 'next-level' || gameState === 'gameover')
+    ){
+        gameState = 'back'
+        showMainMenu()
+    }
+
+    if(
+        mouseX >= 480 &&
+        mouseX <= 527 &&
+        mouseY >= 240 &&
+        mouseY <= 285 &&
+        gameState === 'next-level'
+    ){
+        gameState = 'playing'
+        levels[2].init()
+    }
 });
+
+window.onload = () => {
+    showMainMenu()
+}
+
+let gameState = 'main-menu'
+
+const gameStates = [
+    'main-menu',
+    'playing',
+    'paused',
+    'levels',
+    'gameover',
+    'next-level',
+    'choosing-player'
+]
