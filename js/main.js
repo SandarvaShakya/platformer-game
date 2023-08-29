@@ -24,46 +24,41 @@ let background = new Background('assets/backgrounds/bg3.png', 0, 0, canvasBg.wid
 addCollisionBlocks()
 generateFruits('orange')
 
-// All end animations
-const endAnimations = {
-    finish:{
-        frameRate: 1,
-        frameBuffer: 4,
-        loop: false,
-        imageSrc: 'assets/end/end.png'
-    },
-    endReached: {
-        frameRate: 8,
-        frameBuffer: 4,
-        loop: true,
-        imageSrc: 'assets/end/endPick.png'
-    }
-}
-
 let sawTrap = new Saw(300, 160, 'assets/traps/saw/on.png', 8, sawAnimations)
 let spike = new Trap(750, 304, 'assets/traps/spikes/idle.png', 1)
 let checkpoint = new CheckPoint(460, 289, 'assets/checkpoint/checkpoint.png', 1, checkPointAnimations)
 let finish = new Sprite('assets/end/end.png', 20, 304, 1, endAnimations)
-// let heart = new Heart(18, 18, 'assets/heart/heart.png')
-let hearts = []
 
+let hearts = []
 for(let i = 0; i < player.health; i++){
-    let heart = new Heart(18 + i * 22, 18, 'assets/heart/heart.png')
+    let heart = new Sprite('assets/heart/heart.png', 18 + i * 22, 18, 1)
     hearts.push(heart)
 }
-let targetScore = 1000
+
+// Buttons
+let restartButton = new Sprite('assets/buttons/Restart.png', canvas.width - 38, canvas.height - 36, 1)
+let backButton = new Sprite('assets/buttons/Backmedium.png', canvas.width - 38, canvas.height - 36 - 22, 1)
+let levelsButton = new Sprite('assets/buttons/Levels.png', canvas.width - 38, canvas.height - 36 - 44, 1)
+let volumeButton = new Sprite('assets/buttons/Volume.png', canvas.width - 38, canvas.height - 36 - 66, 1)
+
 let animationId
 const animate = () => {
     animationId = requestAnimationFrame(animate)
     background.update()
     gameLevel.draw()
+    restartButton.draw()
+    backButton.draw()
+    levelsButton.draw()
+    volumeButton.draw()
+    displayScore()
     finish.draw()
+    checkpoint.draw()
     hearts.forEach(heart => {
         heart.draw()
     })
 
     // collision with fruits
-    fruits.forEach(fruit => {
+    oranges.forEach(fruit => {
         fruit.draw()
 
         if(hasCollided(player, fruit)){
@@ -76,7 +71,7 @@ const animate = () => {
     })
 
     if(hasCollided(player, finish)){
-        if(player.score === targetScore){
+        if(player.score === TARGET_SCORE){
             finish.switchSprite('endReached')
             if(finish.currentFrame === finish.frameRate - 1){
                 displayNextLevel()
@@ -84,8 +79,6 @@ const animate = () => {
             } 
         } 
     }
-
-    checkpoint.draw()
     sawTrap.update()
     spike.draw()
 
@@ -112,10 +105,52 @@ const animate = () => {
         }
     }
     player.update()
-    console.log(player.isMoving)
-    displayScore()
 }
 
 window.onload = () => {
-    animate()
+    showMainMenu()
 }
+
+let mainBackground = new Background('assets/backgrounds/bg1.png', 0, 0, canvasBg.width, canvasBg.height, context1)
+let mainMenuImage = new Sprite('assets/main-menu.png', 0, -60, 1)
+const showMainMenu = () => {
+    animateBg()
+}
+
+let bgId
+const animateBg = () => {
+    bgId = requestAnimationFrame(animateBg)
+    mainBackground.update()
+    mainMenuImage.draw()
+}
+
+canvas.addEventListener("click", function(event) {
+    // To get the x and y of the canvas i.e. the distance from the x and y of browser 
+    const rect = canvas.getBoundingClientRect();
+    // The x position of mouse in the canvas
+    const mouseX = event.clientX - rect.left;
+    // The y position of mouse in the canvas
+    const mouseY = event.clientY - rect.top;
+
+    // Check for play press
+    if(
+        mouseX >= 289 &&
+        mouseX <= 719 &&
+        mouseY >= 260 &&
+        mouseY <= 341
+    ){
+        cancelAnimationFrame(bgId)
+        animate()
+        console.log("You pressed play");
+    }
+
+    // Check for choose player press
+    if(
+        mouseX >= 289 &&
+        mouseX <= 719 &&
+        mouseY >= 370 &&
+        mouseY <= 449
+    ){
+        console.log("You pressed Choose player");
+    }
+});

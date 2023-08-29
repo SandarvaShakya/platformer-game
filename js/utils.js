@@ -33,7 +33,7 @@ const generateFruits = (fruitType) => {
                 fruitAnimations[fruitType].imageSrc,
                 17, fruitAnimations
             )
-            fruits.push(fruit)
+            oranges.push(fruit)
             fruitX += 30
         }
         fruitX = 20
@@ -59,6 +59,9 @@ const hasCollided = (object1, object2) => {
     return false
 }
 
+/**
+ *  Displays the score while playing the game
+ */
 const displayScore = () => {
     context.fillStyle = 'white'
     context.font = '16px Arial'

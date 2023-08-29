@@ -115,7 +115,27 @@ const checkPointAnimations = {
     },
 }
 
+// All end animations
+const endAnimations = {
+    finish:{
+        frameRate: 1,
+        frameBuffer: 4,
+        loop: false,
+        imageSrc: 'assets/end/end.png'
+    },
+    endReached: {
+        frameRate: 8,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/end/endPick.png'
+    }
+}
+
 // All collision blocks
 let collisionBlocks = []
 // All fruits
-let fruits = []
+let melons = []
+let oranges = []
+let pineapples = []
+
+let TARGET_SCORE = 1000

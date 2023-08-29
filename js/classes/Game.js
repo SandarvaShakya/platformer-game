@@ -5,6 +5,7 @@ class Game{
     constructor(){
         this.canvas = document.querySelector('#canvas')
         this.context = this.canvas.getContext('2d')
+        this.gameState = "main-menu"
     }
 
     /**

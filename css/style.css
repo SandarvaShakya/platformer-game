@@ -18,7 +18,8 @@ main{
 #canvas{
     border: 1px solid black;
     /* max-width: 100%; */
-    background: transparent;
+    background: transparent
+
 }
 
 #canvas-bg{
