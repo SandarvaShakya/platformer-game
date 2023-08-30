@@ -1,15 +1,13 @@
-const canvas = document.querySelector('#canvas')
-const canvasBg = document.querySelector('#canvas-bg')
+const canvas = document.getElementById('canvas-game')
+// const canvasBg = document.getElementById('canvas-background')
 /** @type {HTMLCanvasElement} */
 const context = canvas.getContext('2d')
-const context1 = canvasBg.getContext('2d')
+// const context1 = canvasBg.getContext('2d')
 
 // 1024
 canvas.width = 16 * 64 
-canvasBg.width = 16 * 64
-// 512
+// // 512
 canvas.height = 16 * 32
-canvasBg.height = 16 * 32
 
 // The player
 let player
@@ -27,17 +25,22 @@ let restartButton = new Sprite('assets/buttons/Restart.png', canvas.width - 38, 
 let backButton = new Sprite('assets/buttons/Backmedium.png', canvas.width - 38, canvas.height - 36 - 22, 1)
 let levelsButton = new Sprite('assets/buttons/Levels.png', canvas.width - 38, canvas.height - 36 - 44, 1)
 let volumeButton = new Sprite('assets/buttons/Volume.png', canvas.width - 38, canvas.height - 36 - 66, 1)
+let playButton = new Sprite('assets/playButton.png', 295, 260, 1)
+let choosePlayerButton = new Sprite('assets/choosePlayerButton.png', 295, 260 + 120, 1)
+let levelMakerButton = new Sprite('assets/levelMakerButton.png', 0, 0, 1)
 
 levels = {
     1: {
         init: () => {
             // map
             gameMap = new Sprite('assets/maps/Map2.png', 0, 0, 1)
-            background = new Background('assets/backgrounds/bg3.png', 0, 0, canvasBg.width, canvasBg.height, context1)
+            background = new Background('assets/backgrounds/bg3.png', 0, 0, canvas.width, canvas.height)
 
             // traps
             sawTrap = new Saw(300, 160, 'assets/traps/saw/on.png', 8, sawAnimations, 1)
             spike = new Trap(750, 304, 'assets/traps/spikes/idle.png', 1)
+
+            enemy = null
 
             // fruits
 
@@ -47,13 +50,14 @@ levels = {
 
             // player
             player = new Player(920, 20, 32, 32, 'assets/player/idleLeft.png', collisionBlocks, 11,playerAnimations)
-            
+
             for(let i = 0; i < player.health; i++){
                 let heart = new Sprite('assets/heart/heart.png', 18 + i * 22, 18, 1)
                 hearts.push(heart)
             }
 
             addCollisionBlocks(collisionData1, 672)
+            fruits = []
             generateFruits('orange', 20, 200, 'rect', 2, 5)
             generateTargetScore()
             animate()
@@ -64,7 +68,7 @@ levels = {
             collisionBlocks = []
             // map
             gameMap = new Sprite('assets/maps/Map1.png', 0, 0, 1)
-            background = new Background('assets/backgrounds/bg1.png', 0, 0, canvasBg.width, canvasBg.height, context1)
+            background = new Background('assets/backgrounds/bg1.png', 0, 0, canvas.width, canvas.height)
 
             // traps
             sawTrap = new Saw(180, 160, 'assets/traps/saw/on.png', 8, sawAnimations, 2)
@@ -97,11 +101,11 @@ levels = {
     }
 }
 
-
-let animationId
+let currentLevel = 1
+let gameAnimationId
 const animate = () => {
-    animationId = requestAnimationFrame(animate)
-    
+    // cancelAnimationFrame(bgId)
+    gameAnimationId = requestAnimationFrame(animate)
     // background and map
     background.update()
     gameMap.draw()
@@ -147,7 +151,7 @@ const animate = () => {
             if(player.health === 0){
                 displayGameover()
                 gameState = 'gameover'
-                cancelAnimationFrame(animationId)
+                cancelAnimationFrame(gameAnimationId)
             }
         }
     }
@@ -160,7 +164,7 @@ const animate = () => {
             if(player.health === 0){
                 displayGameover()
                 gameState = 'gameover'
-                cancelAnimationFrame(animationId)
+                cancelAnimationFrame(gameAnimationId)
             }
         }
     }
@@ -175,7 +179,7 @@ const animate = () => {
             if(finish.currentFrame === finish.frameRate - 1){
                 displayNextLevel()
                 gameState = 'next-level'
-                cancelAnimationFrame(animationId)
+                cancelAnimationFrame(gameAnimationId)
             }
         }
     }
@@ -209,7 +213,7 @@ const animate = () => {
             if(player.health === 0){
                 displayGameover()
                 gameState = 'gameover'
-                cancelAnimationFrame(animationId)
+                cancelAnimationFrame(gameAnimationId)
             }
         }
 
@@ -221,11 +225,11 @@ const animate = () => {
     }
 }
 
-let mainBackground
+let mainMenuBackground
 let mainMenuImage
 const showMainMenu = () => {
     gameState = 'main-menu'
-    mainBackground = new Background('assets/backgrounds/bg1.png', 0, 0, canvasBg.width, canvasBg.height, context1)
+    mainMenuBackground = new Background('assets/backgrounds/bg1.png', 0, 0, canvas.width, canvas.height)
     mainMenuImage = new Sprite('assets/main-menu.png', 0, -60, 1)
     animateBg()
 }
@@ -233,67 +237,15 @@ const showMainMenu = () => {
 let bgId
 const animateBg = () => {
     bgId = requestAnimationFrame(animateBg)
-    mainBackground.update()
+    mainMenuBackground.update()
     mainMenuImage.draw()
+
+    if(gameState === 'main-menu'){
+        playButton.draw()
+        choosePlayerButton.draw()
+        levelMakerButton.draw()
+    }
 }
-
-canvas.addEventListener("click", function(event) {
-    // To get the x and y of the canvas i.e. the distance from the x and y of browser 
-    const rect = canvas.getBoundingClientRect();
-    // The x position of mouse in the canvas
-    const mouseX = event.clientX - rect.left;
-    // The y position of mouse in the canvas
-    const mouseY = event.clientY - rect.top;
-
-    // Check for play press
-    if(
-        mouseX >= 289 &&
-        mouseX <= 719 &&
-        mouseY >= 260 &&
-        mouseY <= 341 &&
-        gameState === 'main-menu'
-    ){
-        cancelAnimationFrame(bgId)
-        levels[1].init()
-        gameState = 'playing'
-        console.log("You pressed play");
-    }
-
-    // Check for choose player press
-    if(
-        mouseX >= 289 &&
-        mouseX <= 719 &&
-        mouseY >= 370 &&
-        mouseY <= 449 &&
-        gameState === 'main-menu'
-    ){
-        gameState = 'playing'
-        console.log("You pressed Choose player");
-    }
-
-    // check for back press
-    if(
-        mouseX >= 361 &&
-        mouseX <= 417 &&
-        mouseY >= 241 &&
-        mouseY <= 285 &&
-        (gameState === 'next-level' || gameState === 'gameover')
-    ){
-        gameState = 'back'
-        showMainMenu()
-    }
-
-    if(
-        mouseX >= 480 &&
-        mouseX <= 527 &&
-        mouseY >= 240 &&
-        mouseY <= 285 &&
-        gameState === 'next-level'
-    ){
-        gameState = 'playing'
-        levels[2].init()
-    }
-});
 
 window.onload = () => {
     showMainMenu()
@@ -308,5 +260,120 @@ const gameStates = [
     'levels',
     'gameover',
     'next-level',
-    'choosing-player'
+    'choosing-player',
+    'back',
+    'levelBuilder'
 ]
+
+const levelBuilderCanvas = document.getElementById('canvas-editor')
+const contextLevelBuilder = levelBuilderCanvas.getContext('2d')
+
+levelBuilderCanvas.width = canvas.width
+levelBuilderCanvas.height = canvas.height
+
+const showLevelBuilder = () => {
+    if(gameState === 'levelBuilder'){
+        cancelAnimationFrame(bgId)
+        cancelAnimationFrame(gameAnimationId)
+        context.clearRect(0, 0, canvas.width, canvas.height)
+        // context1.clearRect(0, 0, canvas.width, canvas.height)
+        canvas.style.display = 'none'
+        const gridImg = new Image()
+        gridImg.src = 'assets/grids.png'
+        gridImg.onload = () => {
+            contextLevelBuilder.drawImage(gridImg, -3, -60)
+        }
+
+        const parsedGridData = parseArrayIn2D(gridData)
+        console.log(parsedGridData);
+        parsedGridData.forEach((row, rowIndex) => {
+            row.forEach((tile, tileIndex) => {
+                // contextLevelBuilder.fillStyle = 'red'
+                // contextLevelBuilder.fillRect(tileIndex * 16, rowIndex * 16, 16, 16)
+                if(tile === 1){
+                    contextLevelBuilder.fillStyle = 'green'
+                    contextLevelBuilder.fillRect(tileIndex * 16, rowIndex * 16, 16, 16)
+                }
+            })
+        })
+
+    }
+}
+
+canvas.addEventListener("click", function(event) {
+    // To get the x and y of the canvas i.e. the distance from the x and y of browser 
+    const rect = canvas.getBoundingClientRect();
+    // To get the scaling factor
+    const canvasScale = canvas.width / rect.width;
+    // The x position of mouse in the canvas
+    const mouseX = (event.clientX - rect.left) * canvasScale
+    // The y position of mouse in the canvas
+    const mouseY = (event.clientY - rect.top) * canvasScale
+
+    console.log(mouseX, mouseY, rect.left, rect.top);
+
+    // Check for play press
+    if(
+        mouseX > playButton.x &&
+        mouseX < playButton.x + playButton.width &&
+        mouseY > playButton.y &&
+        mouseY < playButton.y + playButton.height &&
+        gameState === 'main-menu'
+    ){
+        cancelAnimationFrame(bgId)
+        if(levels[currentLevel]){
+            levels[currentLevel].init()
+            gameState = 'playing'
+        }
+        console.log("You pressed play");
+    }
+
+    // Check for choose player press
+    if(
+        mouseX >= choosePlayerButton.x &&
+        mouseX <= choosePlayerButton.x + choosePlayerButton.width &&
+        mouseY >= choosePlayerButton.y &&
+        mouseY <= choosePlayerButton.y + choosePlayerButton.height &&
+        gameState === 'main-menu'
+    ){
+        console.log("You pressed Choose player");
+    }
+
+    if(
+        mouseX >= levelMakerButton.x &&
+        mouseX <= levelMakerButton.x + levelMakerButton.width &&
+        mouseY >= levelMakerButton.y &&
+        mouseY <= levelMakerButton.y + levelMakerButton.height &&
+        gameState === 'main-menu'
+    ){
+        gameState = 'levelBuilder'
+        showLevelBuilder()
+    }
+
+    // check for back press
+    if(
+        mouseX >= 361 &&
+        mouseX <= 417 &&
+        mouseY >= 241 &&
+        mouseY <= 285 &&
+        (gameState === 'next-level' || gameState === 'gameover')
+    ){
+        gameState = 'back'
+        currentLevel = 1
+        showMainMenu()
+    }
+
+    if(
+        mouseX >= 480 &&
+        mouseX <= 527 &&
+        mouseY >= 240 &&
+        mouseY <= 285 &&
+        gameState === 'next-level'
+    ){
+        currentLevel++
+        if(levels[currentLevel]){
+            levels[currentLevel].init()
+            gameState = 'playing'
+        }
+    }
+});

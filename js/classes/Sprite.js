@@ -59,6 +59,8 @@ class Sprite{
             this.width,
             this.height
         )
+        // context.fillStyle = "rgba(255, 0, 0, 0.5)"
+        // context.fillRect(this.x, this.y, this.width, this.height)
         this.updateFrames()
     }
 

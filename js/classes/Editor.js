@@ -1,9 +1,9 @@
-class Game{
+class Editor{
     /**
      * Provides the context to all the objects
      */
     constructor(){
-        this.canvas = document.getElementById('canvas-game')
+        this.canvas = document.getElementById('canvas-editor')
         this.context = this.canvas.getContext('2d')
 
         this.canvas.width = 16 * 64 
@@ -47,7 +47,7 @@ class Game{
 
     static getInstance() {
         if (!this.instance) {
-            this.instance = new Game();
+            this.instance = new Editor();
         }
         return this.instance;
     }

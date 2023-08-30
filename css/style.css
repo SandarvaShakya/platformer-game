@@ -15,14 +15,21 @@ main{
     align-items: center;
 }
 
-#canvas{
+#canvas-game{
     border: 1px solid black;
-    /* max-width: 100%; */
-    background: transparent
-
+    background: transparent;
 }
 
-#canvas-bg{
+#canvas-background,
+#canvas-editor{
     position: absolute;
     z-index: -1;
+}
+
+canvas{
+    width: 100%;
+}
+
+#canvas-editor{
+    border: 10px solid red;
 }

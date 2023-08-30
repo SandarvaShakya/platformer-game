@@ -1,15 +1,21 @@
 class Background{
-    constructor(imgSrc, x, y,width, height, context){
+    constructor(imgSrc, x, y, width, height){
         this.x = x
         this.y = y
         this.height = height
         this.width = width
+
+        this.isLoaded = false
+
         this.img = new Image()
         this.img.src = imgSrc
-        this.context = context
+        this.img.onload = () => {
+            this.isLoaded = true
+        }
     }
 
     draw(){
+        if(!this.isLoaded) return
         context.drawImage(this.img, this.x, this.y - this.height)
         context.drawImage(this.img, this.x, this.y)
     }
