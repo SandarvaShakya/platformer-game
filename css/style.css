@@ -20,16 +20,18 @@ main{
     background: transparent;
 }
 
-#canvas-background,
 #canvas-editor{
     position: absolute;
     z-index: -1;
 }
 
-canvas{
+#canvas-game{
     width: 100%;
 }
 
 #canvas-editor{
-    border: 10px solid red;
+    border: 1px solid red;
+    /* background-position: top left; */
+    background-size: contain;
+    background-repeat: no-repeat;
 }

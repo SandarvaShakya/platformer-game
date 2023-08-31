@@ -1,8 +1,6 @@
 const canvas = document.getElementById('canvas-game')
-// const canvasBg = document.getElementById('canvas-background')
 /** @type {HTMLCanvasElement} */
 const context = canvas.getContext('2d')
-// const context1 = canvasBg.getContext('2d')
 
 // 1024
 canvas.width = 16 * 64 
@@ -34,7 +32,7 @@ levels = {
         init: () => {
             // map
             gameMap = new Sprite('assets/maps/Map2.png', 0, 0, 1)
-            background = new Background('assets/backgrounds/bg3.png', 0, 0, canvas.width, canvas.height)
+            background = new Background('assets/backgrounds/bg3.png', 0, 0, canvas.width, canvas.height, context)
 
             // traps
             sawTrap = new Saw(300, 160, 'assets/traps/saw/on.png', 8, sawAnimations, 1)
@@ -68,7 +66,7 @@ levels = {
             collisionBlocks = []
             // map
             gameMap = new Sprite('assets/maps/Map1.png', 0, 0, 1)
-            background = new Background('assets/backgrounds/bg1.png', 0, 0, canvas.width, canvas.height)
+            background = new Background('assets/backgrounds/bg1.png', 0, 0, canvas.width, canvas.height, context)
 
             // traps
             sawTrap = new Saw(180, 160, 'assets/traps/saw/on.png', 8, sawAnimations, 2)
@@ -229,7 +227,7 @@ let mainMenuBackground
 let mainMenuImage
 const showMainMenu = () => {
     gameState = 'main-menu'
-    mainMenuBackground = new Background('assets/backgrounds/bg1.png', 0, 0, canvas.width, canvas.height)
+    mainMenuBackground = new Background('assets/backgrounds/bg1.png', 0, 0, canvas.width, canvas.height, context)
     mainMenuImage = new Sprite('assets/main-menu.png', 0, -60, 1)
     animateBg()
 }
@@ -265,42 +263,62 @@ const gameStates = [
     'levelBuilder'
 ]
 
+/////////////////////////////////////////////////////////////
+
 const levelBuilderCanvas = document.getElementById('canvas-editor')
 const contextLevelBuilder = levelBuilderCanvas.getContext('2d')
 
 levelBuilderCanvas.width = canvas.width
 levelBuilderCanvas.height = canvas.height
 
+let levelDataArray = []
+for(let i = 0; i < 64 * 32; i++){
+    levelDataArray[i] = 0
+}
+
+const parsedLevelData = parseArrayIn2D(levelDataArray)
 const showLevelBuilder = () => {
     if(gameState === 'levelBuilder'){
         cancelAnimationFrame(bgId)
         cancelAnimationFrame(gameAnimationId)
         context.clearRect(0, 0, canvas.width, canvas.height)
-        // context1.clearRect(0, 0, canvas.width, canvas.height)
         canvas.style.display = 'none'
-        const gridImg = new Image()
-        gridImg.src = 'assets/grids.png'
-        gridImg.onload = () => {
-            contextLevelBuilder.drawImage(gridImg, -3, -60)
-        }
 
-        const parsedGridData = parseArrayIn2D(gridData)
-        console.log(parsedGridData);
-        parsedGridData.forEach((row, rowIndex) => {
-            row.forEach((tile, tileIndex) => {
-                // contextLevelBuilder.fillStyle = 'red'
-                // contextLevelBuilder.fillRect(tileIndex * 16, rowIndex * 16, 16, 16)
-                if(tile === 1){
-                    contextLevelBuilder.fillStyle = 'green'
-                    contextLevelBuilder.fillRect(tileIndex * 16, rowIndex * 16, 16, 16)
-                }
-            })
-        })
-
+        levelBuilderCanvas.style.background = "url('assets/backgrounds/bg1.png')"
+        levelBuilderCanvas.style.backgroundSize = `contain`;
+        levelBuilderCanvas.style.zIndex = 100
+        let grid = new Grid(levelBuilderCanvas.width, levelBuilderCanvas.height, 'black', contextLevelBuilder)
+        grid.draw()
     }
 }
 
-canvas.addEventListener("click", function(event) {
+// let smallArray
+// let animateLevelId
+// const animateLevel = () => {
+//     animateLevelId = requestAnimationFrame(animateLevel)
+//     contextLevelBuilder.clearRect(0, 0, levelBuilderCanvas.width, levelBuilderCanvas.height)
+//     showLevelBuilder()
+//     parsedLevelData.forEach((row, rowIndex) => {
+//         row.forEach((column, columnIndex) => {
+//             let boxX = columnIndex * 16
+//             let boxWidth = (columnIndex * 16) + 16
+//             let boxY = rowIndex * 16
+//             let boxHeight = (rowIndex * 16) + 16
+//             console.log("Collision on", boxX, boxY, mouse.x, mouse.y);
+//             if(
+//                 mouse.x > boxX &&
+//                 mouse.x < boxWidth &&
+//                 mouse.y > boxY &&
+//                 mouse.y < boxHeight
+//             ){
+//                 contextLevelBuilder.fillStyle = 'rgba(255, 0, 0, 0.5)'
+//                 contextLevelBuilder.fillRect(columnIndex * 16, rowIndex * 16, 16, 16)
+//             }
+//         })
+//     })
+// }
+
+canvas.addEventListener("click", (event) => {
     // To get the x and y of the canvas i.e. the distance from the x and y of browser 
     const rect = canvas.getBoundingClientRect();
     // To get the scaling factor
@@ -347,6 +365,7 @@ canvas.addEventListener("click", function(event) {
         gameState === 'main-menu'
     ){
         gameState = 'levelBuilder'
+        // animateLevel()
         showLevelBuilder()
     }
 
@@ -377,3 +396,45 @@ canvas.addEventListener("click", function(event) {
         }
     }
 });
+
+function objectExistsInArray(object, array) {
+    return array.some(item => JSON.stringify(item) === JSON.stringify(object));
+}
+
+let selectedBoxes = []
+levelBuilderCanvas.addEventListener('click', (event) => {
+    // To get the x and y of the canvas i.e. the distance from the x and y of browser 
+    const rect = levelBuilderCanvas.getBoundingClientRect();
+    // To get the scaling factor
+    const canvasScale = levelBuilderCanvas.width / rect.width;
+    // The x position of mouse in the canvas
+    const mouseX = (event.clientX - rect.left) * canvasScale
+    // The y position of mouse in the canvas
+    const mouseY = (event.clientY - rect.top) * canvasScale
+
+    parsedLevelData.forEach((row, rowIndex) => {
+        row.forEach((column, columnIndex) => {
+            let boxX = columnIndex * 16
+            let boxWidth = (columnIndex * 16) + 16
+            let boxY = rowIndex * 16
+            let boxHeight = (rowIndex * 16) + 16
+            let selectedBox = {
+                x: boxX,
+                y: boxY,
+                width: boxWidth,
+                height: boxHeight
+            }
+            if(
+                mouseX > boxX &&
+                mouseX < boxWidth &&
+                mouseY > boxY &&
+                mouseY < boxHeight &&
+                !objectExistsInArray(selectedBox, selectedBoxes)
+            ){
+                contextLevelBuilder.fillStyle = 'rgba(255, 0, 0, 0.5)'
+                contextLevelBuilder.fillRect(columnIndex * 16, rowIndex * 16, 16, 16)
+                selectedBoxes.push(selectedBox)
+            }
+        })
+    })
+})
