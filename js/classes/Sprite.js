@@ -5,8 +5,9 @@ class Sprite{
      * @param {int} x is the x position for the image 
      * @param {int} y is the y position of the image
      */
-    constructor(imgSrc, x, y, frameRate, animations, loop = true){
-        this.gameContext = new Game().getContext()
+    constructor(imgSrc, x, y, frameRate, context, animations, loop = true){
+        // console.log("From Sprite", imgSrc, x, y, frameRate, context, animations);
+        this.gameContext = context
         this.image = new Image()
         this.image.src = imgSrc
         this.isLoaded = false

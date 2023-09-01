@@ -1,6 +1,7 @@
 class Saw extends Trap{
-    constructor(x, y, imgSrc, frameRate, animations, level){
-        super(x, y, imgSrc, frameRate, animations)
+    constructor(x, y, imgSrc, frameRate, level, context, animations){
+        // console.log(x, y, imgSrc, frameRate, level, context, animations);
+        super(x, y, imgSrc, frameRate, context, animations)
         this.originalX = this.x
         this.originalY = this.y
         this.velocity = {

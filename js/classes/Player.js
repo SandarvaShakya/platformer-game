@@ -11,9 +11,10 @@ class Player extends Sprite{
      * @param {int} frameRate is the number of images in a sprite
      * @param {Array} animations are all the types of sprite a player can be 
      */
-    constructor(x, y, width, height, imgSrc, collisionBlocks, frameRate, animations){
-        super(imgSrc, x, y, frameRate, animations)
-        this.canvas = new Game().getCanvas()
+    constructor(x, y, width, height, imgSrc, collisionBlocks, frameRate, canvas, context, animations){
+        super(imgSrc, x, y, frameRate, context, animations)
+        this.canvas = canvas
+        // this.context = context
         this.width = width
         this.height = height
 
@@ -47,8 +48,8 @@ class Player extends Sprite{
     //  * Draws the player on the screen
     //  */
     // draw(){
-    //     context.fillStyle = 'green'
-    //     context.fillRect(this.x, this.y, this.width, this.height)
+    //     this.context.fillStyle = 'green'
+    //     this.context.fillRect(this.x, this.y, this.width, this.height)
     //     super.draw()
     // }
 

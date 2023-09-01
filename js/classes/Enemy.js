@@ -1,6 +1,6 @@
 class Enemy extends Sprite{
-    constructor(x, y, imgSrc, frameRate, animations){
-        super(imgSrc, x, y, frameRate, animations)
+    constructor(x, y, imgSrc, frameRate, context, animations){
+        super(imgSrc, x, y, frameRate, context, animations)
         this.velocity = {
             x: 0,
             y: 0

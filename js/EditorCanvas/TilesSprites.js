@@ -1,5 +1,6 @@
 class TilesSprites{
     constructor(){
+        this.wrapper = document.querySelector('.sprites-canvas-wrapper')
         this.canvas = document.getElementById('floors')
         this.context = this.canvas.getContext('2d')
 
@@ -31,5 +32,15 @@ class TilesSprites{
 
     getHeight(){
         return this.canvas.height
+    }
+
+    show(){
+        this.wrapper.style.display = 'flex'
+        this.wrapper.style.zIndex = 50
+    }
+
+    hide(){
+        this.wrapper.style.display = 'none'
+        this.wrapper.style.zIndex = -1
     }
 }

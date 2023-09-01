@@ -17,7 +17,18 @@ const addCollisionBlocks = (collisionData, block) => {
     parsedData.forEach((row, rowIndex) => {
         row.forEach((tile, tileIndex) => {
             if(tile === block){
-                collisionBlocks.push(new CollisionBlock(tileIndex * 16, rowIndex * 16))
+                collisionBlocks.push(new CollisionBlock(tileIndex * 16, rowIndex * 16, context))
+            }
+        })
+    })
+}
+
+const addParsedCollisionBlocks = (parsedCollisionData, block, context) => {
+    // generation of collision blocks from the collision data
+    parsedCollisionData.forEach((row, rowIndex) => {
+        row.forEach((tile, tileIndex) => {
+            if(tile === block){
+                collisionBlocks.push(new CollisionBlock(tileIndex * 16, rowIndex * 16, context))
             }
         })
     })
@@ -34,8 +45,10 @@ const generateFruits = (fruitType, x, y, shape, rows, columns) => {
                     let fruit = new Fruit(
                         fruitX, fruitY, 
                         fruitAnimations[fruitType].imageSrc,
-                        17, fruitAnimations,
-                        fruitType
+                        17,
+                        fruitType,
+                        context,
+                        fruitAnimations
                     )
                     fruits.push(fruit)
                     fruitX += 30
@@ -50,8 +63,10 @@ const generateFruits = (fruitType, x, y, shape, rows, columns) => {
                     let fruit = new Fruit(
                         fruitX, fruitY, 
                         fruitAnimations[fruitType].imageSrc,
-                        17, fruitAnimations,
-                        fruitType
+                        17,
+                        fruitType,
+                        context,
+                        fruitAnimations
                     );
                     fruits.push(fruit);
                     fruitX += 40;

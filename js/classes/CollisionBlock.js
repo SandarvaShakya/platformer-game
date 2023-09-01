@@ -4,8 +4,8 @@ class CollisionBlock{
      * @param {int} x is the x position of the collision block
      * @param {int} y is the y position of the collision block
      */
-    constructor(x, y){
-        this.gameContext = new Game().getContext()
+    constructor(x, y, context){
+        this.gameContext = context
 
         this.x = x
         this.y = y

@@ -1,9 +1,9 @@
-class Editor{
+class CustomGame{
     /**
      * Provides the context to all the objects
      */
     constructor(){
-        this.canvas = document.getElementById('canvas-editor')
+        this.canvas = document.getElementById('canvas-editor-game')
         this.context = this.canvas.getContext('2d')
 
         this.canvas.width = 16 * 64 
@@ -46,15 +46,7 @@ class Editor{
     }
 
     show(){
-        this.canvas.style.background = "url('assets/backgrounds/bg1.png')"
-        this.canvas.style.backgroundSize = `contain`;
-        this.canvas.style.zIndex = 100
         this.canvas.style.display = 'block'
-    }
-
-    hide(){
-        this.canvas.style.background = "none"
-        this.canvas.style.zIndex = -1
-        this.canvas.style.display = 'none'
+        this.canvas.style.zIndex = 101
     }
 }
