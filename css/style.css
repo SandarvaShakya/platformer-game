@@ -18,20 +18,26 @@ main{
 #canvas-game{
     border: 1px solid black;
     background: transparent;
-}
-
-#canvas-editor{
-    position: absolute;
-    z-index: -1;
-}
-
-#canvas-game{
     width: 100%;
 }
 
 #canvas-editor{
-    border: 1px solid red;
-    /* background-position: top left; */
-    background-size: contain;
-    background-repeat: no-repeat;
+    display: none;
+    position: absolute;
+    z-index: -1;
+    top: 190px
+}
+
+.sprites-canvas-wrapper{
+    display: none;
+    position: absolute;
+    width: 100%;
+}
+
+#floors,
+#fruits,
+#traps,
+#win{
+    width: 25%;
+    border: 2px solid black;
 }

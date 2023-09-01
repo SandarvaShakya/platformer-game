@@ -1,12 +1,13 @@
 class Grid{
-    constructor(width, height, color, context){
+    constructor(width, height, color, gridSpaceX, gridSpaceY, context){
         this.width = width
         this.height = height
         this.color= color
         this.context = context
 
 
-        this.lineSpacing = 16
+        this.lineSpacingX = gridSpaceY
+        this.lineSpacingY = gridSpaceY
     }
 
     draw(){
@@ -14,7 +15,7 @@ class Grid{
         this.context.lineWidth = 1;
 
         // Draw horizontal lines
-        for (let y = 0; y <= this.height; y += this.lineSpacing) {
+        for (let y = 0; y <= this.height; y += this.lineSpacingX) {
             this.context.beginPath();
             this.context.moveTo(0, y);
             this.context.lineTo(this.width, y);
@@ -22,7 +23,7 @@ class Grid{
         }
 
         // Draw vertical lines
-        for (let x = 0; x <= this.width; x += this.lineSpacing) {
+        for (let x = 0; x <= this.width; x += this.lineSpacingY) {
             this.context.beginPath();
             this.context.moveTo(x, 0);
             this.context.lineTo(x, canvas.height);

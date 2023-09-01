@@ -3,16 +3,16 @@
  * @param {Array} array is the representation of the map in 1D array according to the tile
  * @returns the 2D array according to the tiles per row
  */
-const parseArrayIn2D = (array) => {
+const parseArrayIn2D = (array, numberOfTiles) => {
     const rows = []
-    for(let i = 0; i < array.length; i += 64){
-        rows.push(array.slice(i, i + 64))
+    for(let i = 0; i < array.length; i += numberOfTiles){
+        rows.push(array.slice(i, i + numberOfTiles))
     }
     return rows
 }
 
 const addCollisionBlocks = (collisionData, block) => {
-    let parsedData = parseArrayIn2D(collisionData)
+    let parsedData = parseArrayIn2D(collisionData, 64)
     // generation of collision blocks from the collision data
     parsedData.forEach((row, rowIndex) => {
         row.forEach((tile, tileIndex) => {

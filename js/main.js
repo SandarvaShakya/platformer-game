@@ -91,8 +91,6 @@ levels = {
             generateFruits('pineapple', 882, 294, 'rect', 2, 3)
             generateFruits('orange', 260, 110, 'triangle', 3, 3)
             generateTargetScore()
-
-            console.log(fruits);
             animate()
         }
 
@@ -185,7 +183,6 @@ const animate = () => {
 
     checkpoint && checkpoint.draw()
     // check collision with the checkpoint
-
     if(checkpoint){
         if(hasCollided(player, checkpoint)){
             if(!player.checkpointReached){
@@ -229,10 +226,12 @@ const showMainMenu = () => {
     gameState = 'main-menu'
     mainMenuBackground = new Background('assets/backgrounds/bg1.png', 0, 0, canvas.width, canvas.height, context)
     mainMenuImage = new Sprite('assets/main-menu.png', 0, -60, 1)
+    console.log(collisionBlocks);
     animateBg()
 }
 
 let bgId
+let terrian = new TilesSprites()
 const animateBg = () => {
     bgId = requestAnimationFrame(animateBg)
     mainMenuBackground.update()
@@ -243,6 +242,8 @@ const animateBg = () => {
         choosePlayerButton.draw()
         levelMakerButton.draw()
     }
+
+    // terrian = new TilesSprites()
 }
 
 window.onload = () => {
@@ -272,11 +273,14 @@ levelBuilderCanvas.width = canvas.width
 levelBuilderCanvas.height = canvas.height
 
 let levelDataArray = []
+let customCollisionArray = []
 for(let i = 0; i < 64 * 32; i++){
     levelDataArray[i] = 0
+    customCollisionArray[i] = 0
 }
+const parsedCollisionData = parseArrayIn2D(customCollisionArray, 64)
 
-const parsedLevelData = parseArrayIn2D(levelDataArray)
+const parsedLevelData = parseArrayIn2D(levelDataArray, 64)
 const showLevelBuilder = () => {
     if(gameState === 'levelBuilder'){
         cancelAnimationFrame(bgId)
@@ -287,7 +291,10 @@ const showLevelBuilder = () => {
         levelBuilderCanvas.style.background = "url('assets/backgrounds/bg1.png')"
         levelBuilderCanvas.style.backgroundSize = `contain`;
         levelBuilderCanvas.style.zIndex = 100
-        let grid = new Grid(levelBuilderCanvas.width, levelBuilderCanvas.height, 'black', contextLevelBuilder)
+        levelBuilderCanvas.style.display = 'block'
+        document.querySelector('.sprites-canvas-wrapper').style.display = 'flex'
+        terrian.canvas.style.zIndex = 100
+        let grid = new Grid(levelBuilderCanvas.width, levelBuilderCanvas.height, 'black', 16, 16, contextLevelBuilder)
         grid.draw()
     }
 }
@@ -422,7 +429,9 @@ levelBuilderCanvas.addEventListener('click', (event) => {
                 x: boxX,
                 y: boxY,
                 width: boxWidth,
-                height: boxHeight
+                height: boxHeight,
+                rowIndex,
+                columnIndex
             }
             if(
                 mouseX > boxX &&
@@ -438,3 +447,297 @@ levelBuilderCanvas.addEventListener('click', (event) => {
         })
     })
 })
+
+
+const parsedTerrianData = parseArrayIn2D(terrianData, 22)
+let selectedImg = new Image()
+terrian.canvas.addEventListener('click', (event) => {
+    // To get the x and y of the canvas i.e. the distance from the x and y of browser 
+    const rect = terrian.canvas.getBoundingClientRect();
+    // To get the scaling factor
+    const canvasScale = terrian.canvas.width / rect.width;
+    // The x position of mouse in the canvas
+    const mouseX = (event.clientX - rect.left) * canvasScale
+    // The y position of mouse in the canvas
+    const mouseY = (event.clientY - rect.top) * canvasScale
+
+    parsedTerrianData.forEach((row, rowIndex) => {
+        row.forEach((column, columnIndex) => {
+            let boxX = columnIndex * 16
+            let boxWidth = (columnIndex * 16) + 16
+            let boxY = rowIndex * 16
+            let boxHeight = (rowIndex * 16) + 16
+            if(
+                mouseX > boxX &&
+                mouseX < boxWidth &&
+                mouseY > boxY &&
+                mouseY < boxHeight
+                ){
+                mapTile(column)
+                selectedImg.onload = () => {
+                    selectedBoxes.forEach(selectedBox => {
+                        contextLevelBuilder.fillStyle = 'rgba(0,0,0,0)'
+                        contextLevelBuilder.clearRect(selectedBox.x, selectedBox.y, 16, 16)
+                        contextLevelBuilder.drawImage(selectedImg, selectedBox.x, selectedBox.y, 16, 16)
+                        parsedLevelData[selectedBox.rowIndex][selectedBox.columnIndex] = column
+                        parsedCollisionData[selectedBox.rowIndex][selectedBox.columnIndex] = 733
+                    })
+                    selectedBoxes = []
+                }
+            }
+        })
+    })
+})
+
+// Function that maps the number to the image
+const mapTile = (mappingNumber) => {
+    if(
+        mappingNumber === 51 || 
+        mappingNumber === 52 || 
+        mappingNumber === 53 ||
+        mappingNumber === 29 ||
+        mappingNumber === 31
+    ){
+        selectedImg.src = 'assets/16x16-tiles/normal-grass/normal-center.png'
+        return
+    }
+
+    if(
+        mappingNumber === 139 || 
+        mappingNumber === 140 || 
+        mappingNumber === 141 ||
+        mappingNumber === 119 ||
+        mappingNumber === 117
+    ){
+        selectedImg.src = 'assets/16x16-tiles/dark-grass/dark-center.png'
+        return
+    }
+
+    if(
+        mappingNumber === 205 || 
+        mappingNumber === 207 || 
+        mappingNumber === 227 ||
+        mappingNumber === 228 ||
+        mappingNumber === 229
+    ){
+        selectedImg.src = 'assets/16x16-tiles/light-grass/light-center.png'
+        return
+    }
+
+    if(
+        mappingNumber === 150 || 
+        mappingNumber === 151 || 
+        mappingNumber === 152 ||
+        mappingNumber === 128 ||
+        mappingNumber === 130
+    ){
+        selectedImg.src = 'assets/16x16-tiles/brick/brick-center.png'
+        return
+    }
+
+
+    switch(mappingNumber){
+        // Normal Grass
+        case 7:
+            selectedImg.src = 'assets/16x16-tiles/normal-grass/normal-top-left.png'  
+        case 8:
+            selectedImg.src = 'assets/16x16-tiles/normal-grass/normal-top-center.png'  
+            break
+        case 9:
+            selectedImg.src = 'assets/16x16-tiles/normal-grass/normal-top-right.png'  
+            break
+        case 30:
+            selectedImg.src = 'assets/16x16-tiles/normal-grass/normal-center.png'
+            break
+        // Dark Grass
+        case 95:
+            selectedImg.src = 'assets/16x16-tiles/dark-grass/dark-top-left.png'
+            break
+        case 96:
+            selectedImg.src = 'assets/16x16-tiles/dark-grass/dark-top-center.png'
+            break
+        case 97:
+            selectedImg.src = 'assets/16x16-tiles/dark-grass/dark-top-right.png'
+            break
+        case 118:
+            selectedImg.src = 'assets/16x16-tiles/dark-grass/dark-center.png'
+            break
+        // Light Grass
+        case 183:
+            selectedImg.src = 'assets/16x16-tiles/light-grass/light-top-left.png'
+            break
+        case 184:
+            selectedImg.src = 'assets/16x16-tiles/light-grass/light-top-center.png'
+            break
+        case 185:
+            selectedImg.src = 'assets/16x16-tiles/light-grass/light-top-right.png'
+            break
+        case 206:
+            selectedImg.src = 'assets/16x16-tiles/light-grass/light-center.png'
+            break
+        // Stone/Steel Blocks
+        case 1:
+            selectedImg.src = 'assets/16x16-tiles/steel-top-left.png'
+            break
+        case 2:
+            selectedImg.src = 'assets/16x16-tiles/steel/steel-top-center.png'
+            break
+        case 3:
+            selectedImg.src = 'assets/16x16-tiles/steel/steel-top-right.png'
+            break
+        case 23:
+            selectedImg.src = 'assets/16x16-tiles/steel/steel-center-left.png'
+            break
+        case 24:
+            selectedImg.src = 'assets/16x16-tiles/steel/steel-center.png'
+            break
+        case 25:
+            selectedImg.src = 'assets/16x16-tiles/steel/steel-center-right.png'
+            break
+        case 45:
+            selectedImg.src = 'assets/16x16-tiles/steel/steel-bottom-left.png'
+            break
+        case 46:
+            selectedImg.src = 'assets/16x16-tiles/steel/steel-bottom-center.png'
+            break
+        case 47:
+            selectedImg.src = 'assets/16x16-tiles/steel/steel-bottom-right.png'
+            break
+        // Wood Blocks
+        case 89:
+            selectedImg.src = 'assets/16x16-tiles/wood/wood-top-left.png'
+            break
+        case 90:
+            selectedImg.src = 'assets/16x16-tiles/wood/wood-top-center.png'
+            break
+        case 91:
+            selectedImg.src = 'assets/16x16-tiles/wood/wood-top-right.png'
+            break
+        case 111:
+            selectedImg.src = 'assets/16x16-tiles/wood/wood-center-left.png'
+            break
+        case 112:
+            selectedImg.src = 'assets/16x16-tiles/wood/wood-center.png'
+            break
+        case 113:
+            selectedImg.src = 'assets/16x16-tiles/wood/wood-center-right.png'
+            break
+        case 133:
+            selectedImg.src = 'assets/16x16-tiles/wood/wood-bottom-left.png'
+            break
+        case 134:
+            selectedImg.src = 'assets/16x16-tiles/wood/wood-bottom-center.png'
+            break
+        case 135:
+            selectedImg.src = 'assets/16x16-tiles/wood/wood-bottom-right.png'
+            break
+        // Prismarine Block
+        case 177:
+            selectedImg.src = 'assets/16x16-tiles/prismarine/prismarine-top-left.png'
+            break
+        case 178:
+            selectedImg.src = 'assets/16x16-tiles/prismarine/prismarine-top-center.png'
+            break
+        case 179:
+            selectedImg.src = 'assets/16x16-tiles/prismarine/prismarine-top-right.png'
+            break
+        case 199:
+            selectedImg.src = 'assets/16x16-tiles/prismarine/prismarine-center-left.png'
+            break
+        case 200:
+            selectedImg.src = 'assets/16x16-tiles/prismarine/prismarine-center.png'
+            break
+        case 201:
+            selectedImg.src = 'assets/16x16-tiles/prismarine/prismarine-center-right.png'
+            break
+        case 221:
+            selectedImg.src = 'assets/16x16-tiles/prismarine/prismarine-bottom-left.png'
+            break
+        case 222:
+            selectedImg.src = 'assets/16x16-tiles/prismarine/prismarine-bottom-center.png'
+            break
+        case 223:
+            selectedImg.src = 'assets/16x16-tiles/prismarine/prismarine-bottom-right.png'
+            break
+        // Brown Platform
+        case 13:
+            selectedImg.src = 'assets/16x16-tiles/brown-platform/brown-platform-left.png'
+            break
+        case 14:
+            selectedImg.src = 'assets/16x16-tiles/brown-platform/brown-platform-center.png'
+            break
+        case 15:
+            selectedImg.src = 'assets/16x16-tiles/brown-platform/brown-platform-right.png'
+            break
+        case 16:
+            selectedImg.src = 'assets/16x16-tiles/brown-platform/brown-platform-top.png'
+            break
+        case 38:
+            selectedImg.src = 'assets/16x16-tiles/brown-platform/brown-platform-center-v.png'
+            break
+        case 60:
+            selectedImg.src = 'assets/16x16-tiles/brown-platform/brown-platform-bottom.png'
+            break
+        case 35:
+            selectedImg.src = 'assets/16x16-tiles/brown-platform/brown-single-block.png'
+            break
+        case 36:
+            selectedImg.src = 'assets/16x16-tiles/brown-platform/brown-block-top-left.png'
+            break
+        case 37:
+            selectedImg.src = 'assets/16x16-tiles/brown-platform/brown-block-top-right.png'
+            break
+        case 58:
+            selectedImg.src = 'assets/16x16-tiles/brown-platform/brown-block-bottom-left.png'
+            break
+        case 59:
+            selectedImg.src = 'assets/16x16-tiles/brown-platform/brown-block-bottom-right.png'
+            break
+        // Gray Platforms
+        // Orange Platforms
+        // Gold Platforms
+        // Small Wood Platform
+        case 40:
+            selectedImg.src = 'assets/16x16-tiles/small-wood/small-wood-left.png'
+            break
+        case 41:
+            selectedImg.src = 'assets/16x16-tiles/small-wood/small-wood-center.png'
+            break
+        case 42:
+            selectedImg.src = 'assets/16x16-tiles/small-wood/small-wood-right.png'
+            break
+        // Small Steel Platform
+        case 62:
+            selectedImg.src = 'assets/16x16-tiles/small-steel/small-steel-left.png'
+            break
+        case 63:
+            selectedImg.src = 'assets/16x16-tiles/small-steel/small-steel-center.png'
+            break
+        case 64:
+            selectedImg.src = 'assets/16x16-tiles/small-steel/small-steel-right.png'
+            break
+        // Small Gold Platform
+        case 18:
+            selectedImg.src = 'assets/16x16-tiles/small-gold/small-gold-left.png'
+            break
+        case 19:
+            selectedImg.src = 'assets/16x16-tiles/small-gold/small-gold-center.png'
+            break
+        case 20:
+            selectedImg.src = 'assets/16x16-tiles/small-gold/small-gold-right.png'
+            break
+        // Bricks
+        case 106:
+            selectedImg.src = 'assets/16x16-tiles/brick/brick-top-left.png'
+            break
+        case 107:
+            selectedImg.src = 'assets/16x16-tiles/brick/brick-top-center.png'
+            break
+        case 108:
+            selectedImg.src = 'assets/16x16-tiles/brick/brick-top-right.png'
+            break
+        case 129:
+            selectedImg.src = 'assets/16x16-tiles/brick/brick-center.png'
+            break
+    }
+}

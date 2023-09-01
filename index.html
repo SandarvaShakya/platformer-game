@@ -8,7 +8,15 @@
     <title>Platformer</title>
 </head>
 <body>
+    <div class="sprites-canvas-wrapper center">
+        <canvas id="floors"></canvas>
+        <button id="save">Save Map</button>
+        <button id="clear">Clear Map</button>
+        <button id="play">Play Map</button>
+        <button id="back">Back</button>
+    </div>
     <main class="center">
+        <!-- Sprites -->
         <canvas id="canvas-editor"></canvas>
         <canvas id="canvas-game"></canvas>
     </main>
@@ -28,6 +36,8 @@
     <script src="js/classes/Enemy.js"></script>
     <script src="js/classes/Player.js"></script>
     <script src="js/classes/Grid.js"></script>
+
+    <script src="js/EditorCanvas/TilesSprites.js"></script>
     <script src="js/utils.js"></script>
     <script src="js/eventListeners.js"></script>
     <script src="js/main.js"></script>
