@@ -421,6 +421,12 @@ let customBlocks = []
 let parsedCustomMapCollisionData
 let parsedCustomLevelData
 
+// Boxes selected in level builder
+let selectedBoxes = []
+
+// The image clicked in terrian canvas
+let clickedImg = new Image()
+
 // Skins
 let player1, player2, player3
 let pinkMan = {

@@ -1,12 +1,11 @@
-initializeConstantGameButtons()
-
+// All the available levels
 levels = {
     1: {
         init: () => {
             // Collision Data
             collisionBlocks = []
             addCollisionBlocks(collisionData1, 672)
-
+            
             // Map
             gameMap = new Sprite('assets/maps/Map1.png', 0, 0, 1)
             background = new Background('assets/backgrounds/bg3.png', 0, 0, canvas.width, canvas.height, context)
@@ -83,7 +82,11 @@ levels = {
         }
     }
 }
+const parsedTerrianData = parseArrayIn2D(terrianData, 22)
 
+initializeConstantGameButtons()
+
+// the main game loop
 const gameLoop = () => {
     gameAnimationId = requestAnimationFrame(gameLoop)
 
@@ -197,30 +200,7 @@ const gameLoop = () => {
     player.update(context)
 }
 
-const showMainMenu = () => {
-    game.changeStateTo('main-menu')
-    cancelAnimationFrame(menuAnimationId)
-    mainMenuBackground = new Background('assets/backgrounds/bg1.png', 0, 0, game.width, game.height, context)
-    mainMenuImg = new Sprite('assets/main-menu.png', -3, -60, 1)
-    animateMenu()
-}
-
-const animateMenu = () => {
-    menuAnimationId = requestAnimationFrame(animateMenu)
-    if(game.state === 'main-menu'){
-        mainMenuBackground.update()
-        mainMenuImg.draw(context)
-
-        // Menu Buttons
-        playButton.draw(context)
-        choosePlayerButton.draw(context)
-        levelMakerButton.draw(context)
-        levelSelectionButton.draw(context)
-        // savedGamesButton.draw(context)
-    }
-}
-
-/////////////////////////////////////////////////////////////
+///////////Level Builder////////////////////////////////////////
 const showLevelBuilder = () => {
     game.changeStateTo('levelBuilder')
     levelBuilderContext.clearRect(0, 0, levelBuilder.width, levelBuilder.height)
@@ -236,50 +216,6 @@ const showLevelBuilder = () => {
 
     renderGrid()
 }
-
-let selectedBoxes = []
-levelBuilderCanvas.addEventListener('click', (event) => {
-    let { mouseX, mouseY } = findMousePos(levelBuilderCanvas, event)
-    parsedCustomLevelData.forEach((row, rowIndex) => {
-        row.forEach((column, columnIndex) => {
-            showSelectedRegion(mouseX, mouseY, columnIndex, rowIndex)
-        })
-    })
-})
-
-const parsedTerrianData = parseArrayIn2D(terrianData, 22)
-let clickedImg = new Image()
-terrianSpriteSheet.canvas.addEventListener('click', (event) => {
-    const { mouseX, mouseY } = findMousePos(terrianSpriteSheet.canvas, event)
-
-    parsedTerrianData.forEach((row, rowIndex) => {
-        row.forEach((column, columnIndex) => {
-            let boxX = columnIndex * 16
-            let boxWidth = (columnIndex * 16) + 16
-            let boxY = rowIndex * 16
-            let boxHeight = (rowIndex * 16) + 16
-            if(
-                mouseX > boxX &&
-                mouseX < boxWidth &&
-                mouseY > boxY &&
-                mouseY < boxHeight
-                ){
-                let imgSrc = mapTile(column)
-                clickedImg.src = imgSrc
-                clickedImg.onload = () => {
-                    selectedBoxes.forEach(selectedBox => {
-                        levelBuilderContext.fillStyle = 'rgba(0,0,0,0)'
-                        levelBuilderContext.clearRect(selectedBox.x, selectedBox.y, 16, 16)
-                        levelBuilderContext.drawImage(clickedImg, selectedBox.x, selectedBox.y, 16, 16)
-                        parsedCustomLevelData[selectedBox.rowIndex][selectedBox.columnIndex] = column
-                        parsedCustomMapCollisionData[selectedBox.rowIndex][selectedBox.columnIndex] = 733
-                    })
-                    selectedBoxes = []
-                }
-            }
-        })
-    })
-})
 
 const renderCustomGameUI = () => {
     customBlocks = []
@@ -316,28 +252,4 @@ const startCustomGame = () => {
 
 window.onload = () => {
     showMainMenu()
-}
-////////////////////////////////////////////////////////////
-const showLevelSelection = () => {
-    game.changeStateTo('playerSelection')
-    cancelAnimationFrame(gameAnimationId)
-    game.hide()
-    playerSelection.show()
-
-    selectionBackground = new Background('assets/select-bg.png', 0, 0, playerSelectionCanvas.width, playerSelectionCanvas.height, playerSelectionContext)
-
-    player1 = new Player(maskMan.x, maskMan.y, 120, 120, maskMan.imgSrc, [], maskMan.frameRate)
-    player2 = new Player(pinkMan.x, pinkMan.y, 120, 120, pinkMan.imgSrc, [], pinkMan.frameRate)
-    player3 = new Player(virtualGuy.x, virtualGuy.y, 120, 120, virtualGuy.imgSrc, [], virtualGuy.frameRate)
-
-    animateSelection()
-}
-
-const animateSelection = () => {
-    playerSelectionAnimationId = requestAnimationFrame(animateSelection)
-    selectionBackground.draw()
-    player1.draw(playerSelectionContext)
-    player2.draw(playerSelectionContext)
-    player3.draw(playerSelectionContext)
-    backButton.draw(playerSelectionContext)
 }

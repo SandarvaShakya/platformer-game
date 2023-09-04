@@ -62,8 +62,9 @@ window.addEventListener('keyup', (event) => {
     }
 })
 
+// to check if the level selection button is clicked in the main menu
 let selectionClick = false
-// Various Ingame button clicks listener
+// click events in the actual game and menu
 canvas.addEventListener("click", (event) => {
     const {mouseX, mouseY} = findMousePos(canvas, event)
 
@@ -89,7 +90,7 @@ canvas.addEventListener("click", (event) => {
         mouseY <= choosePlayerButton.y + choosePlayerButton.height &&
         game.state === 'main-menu'
     ){
-        showLevelSelection()
+        showPlayerSelection()
     }
 
     if(
@@ -170,7 +171,7 @@ canvas.addEventListener("click", (event) => {
     }
 });
 
-
+// click events in the custom map
 customGameCanvas.addEventListener('click', (event) => {
     let { mouseX, mouseY } = findMousePos(customGameCanvas, event)
     // Restart the game
@@ -199,6 +200,7 @@ customGameCanvas.addEventListener('click', (event) => {
     }
 })
 
+// Click events in player selection screen
 playerSelectionCanvas.addEventListener('click', (event) => {
     let { mouseX, mouseY } = findMousePos(playerSelectionCanvas, event)
 
@@ -259,6 +261,49 @@ playerSelectionCanvas.addEventListener('click', (event) => {
     }
 })
 
+// click event when the level editor's grid is clicked
+levelBuilderCanvas.addEventListener('click', (event) => {
+    let { mouseX, mouseY } = findMousePos(levelBuilderCanvas, event)
+    parsedCustomLevelData.forEach((row, rowIndex) => {
+        row.forEach((column, columnIndex) => {
+            showSelectedRegion(mouseX, mouseY, columnIndex, rowIndex)
+        })
+    })
+})
+
+// add the clicked terrian data and image on click to the terrian canvas
+terrianSpriteSheet.canvas.addEventListener('click', (event) => {
+    const { mouseX, mouseY } = findMousePos(terrianSpriteSheet.canvas, event)
+
+    parsedTerrianData.forEach((row, rowIndex) => {
+        row.forEach((column, columnIndex) => {
+            let boxX = columnIndex * 16
+            let boxWidth = (columnIndex * 16) + 16
+            let boxY = rowIndex * 16
+            let boxHeight = (rowIndex * 16) + 16
+            if(
+                mouseX > boxX &&
+                mouseX < boxWidth &&
+                mouseY > boxY &&
+                mouseY < boxHeight
+                ){
+                let imgSrc = mapTile(column)
+                clickedImg.src = imgSrc
+                clickedImg.onload = () => {
+                    selectedBoxes.forEach(selectedBox => {
+                        levelBuilderContext.fillStyle = 'rgba(0,0,0,0)'
+                        levelBuilderContext.clearRect(selectedBox.x, selectedBox.y, 16, 16)
+                        levelBuilderContext.drawImage(clickedImg, selectedBox.x, selectedBox.y, 16, 16)
+                        parsedCustomLevelData[selectedBox.rowIndex][selectedBox.columnIndex] = column
+                        parsedCustomMapCollisionData[selectedBox.rowIndex][selectedBox.columnIndex] = 733
+                    })
+                    selectedBoxes = []
+                }
+            }
+        })
+    })
+})
+
 // The Play button in level editor
 const levelPlayButton = document.getElementById('play-btn')
 levelPlayButton.addEventListener('click', (event) => {
@@ -268,4 +313,3 @@ levelPlayButton.addEventListener('click', (event) => {
 
     initCustomLevel()
 })
-
