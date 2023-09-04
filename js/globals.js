@@ -361,6 +361,14 @@ const BUTTONS = {
             y: 0,
         },
         frameRate: 1
+    },
+    savedGames: {
+        imgSrc: 'assets/buttons/savedMapsButton.png',
+        position: {
+            x: 0,
+            y: 80,
+        },
+        frameRate: 1
     }
 }
 
@@ -375,6 +383,7 @@ let levelSelectionButton
 let playButton
 let choosePlayerButton
 let levelMakerButton
+let savedGamesButton
 
 // Default starting level 1
 let currentLevel = 1

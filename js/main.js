@@ -59,8 +59,9 @@ levels = {
 
             // Fruits
             fruits = []
-            generateFruits('pineapple', 882, 294, 'rect', 2, 3)
+            generateFruits('melon', 882, 294, 'rect', 2, 3)
             generateFruits('orange', 260, 110, 'triangle', 3, 3)
+            generateFruits('pineapple', 960, 200, 'rect', 3, 1)
             generateTargetScore()
 
             // Finishing Games
@@ -215,6 +216,7 @@ const animateMenu = () => {
         choosePlayerButton.draw(context)
         levelMakerButton.draw(context)
         levelSelectionButton.draw(context)
+        // savedGamesButton.draw(context)
     }
 }
 

@@ -453,6 +453,12 @@ const initializeConstantGameButtons = () => {
         BUTTONS.levelSelection.position.y,
         BUTTONS.levelSelection.frameRate,
     )
+    savedGamesButton = new Sprite(
+        BUTTONS.savedGames.imgSrc,
+        BUTTONS.savedGames.position.x,
+        BUTTONS.savedGames.position.y,
+        BUTTONS.savedGames.frameRate,
+    )
 }
 
 // Renders the buttons and constant items
