@@ -1,6 +1,6 @@
 class Fruit extends Sprite{
-    constructor(x, y, imgSrc, frameRate, fruitType, context, animations){
-        super(imgSrc, x, y, frameRate, context, animations)
+    constructor(x, y, imgSrc, frameRate, fruitType, animations){
+        super(imgSrc, x, y, frameRate, animations)
         this.hasBeenEaten = false
         this.fruitType = fruitType
         this.scorePerFruit = 0

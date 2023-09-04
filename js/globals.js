@@ -27,53 +27,153 @@ const fruitAnimations = {
 }
 
 // All Player animations
-const playerAnimations = {
+const player1Animations = {
     idleRight: {
         frameRate: 11,
         frameBuffer: 4,
         loop: true,
-        imageSrc: 'assets/player/idle.png'
+        imageSrc: 'assets/player/player1/idle.png'
     },
     idleLeft: {
         frameRate: 11,
         frameBuffer: 4,
         loop: true,
-        imageSrc: 'assets/player/idleLeft.png'
+        imageSrc: 'assets/player/player1/idleLeft.png'
     },
     runRight: {
         frameRate: 11,
         frameBuffer: 4,
         loop: true,
-        imageSrc: 'assets/player/run.png'
+        imageSrc: 'assets/player/player1/run.png'
     },
     runLeft: {
         frameRate: 11,
         frameBuffer: 4,
         loop: true,
-        imageSrc: 'assets/player/runLeft.png'
+        imageSrc: 'assets/player/player1/runLeft.png'
     },
     jumpRight: {
         frameRate: 1,
         frameBuffer: 4,
-        imageSrc: 'assets/player/jump.png'
+        imageSrc: 'assets/player/player1/jump.png'
     },
     jumpLeft: {
         frameRate: 1,
         frameBuffer: 4,
         loop: true,
-        imageSrc: 'assets/player/jumpLeft.png'
+        imageSrc: 'assets/player/player1/jumpLeft.png'
     },
     hit:{
         frameRate: 7,
         frameBuffer: 4,
         loop: true,
-        imageSrc: 'assets/player/hit.png'
+        imageSrc: 'assets/player/player1/hit.png'
     },
     hitLeft: {
         frameRate: 7,
         frameBuffer: 4,
         loop: true,
-        imageSrc: 'assets/player/hitLeft.png'
+        imageSrc: 'assets/player/player1/hitLeft.png'
+    }
+}
+
+const player2Animations = {
+    idleRight: {
+        frameRate: 11,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player2/idle.png'
+    },
+    idleLeft: {
+        frameRate: 11,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player2/idleLeft.png'
+    },
+    runRight: {
+        frameRate: 11,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player2/run.png'
+    },
+    runLeft: {
+        frameRate: 11,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player2/runLeft.png'
+    },
+    jumpRight: {
+        frameRate: 1,
+        frameBuffer: 4,
+        imageSrc: 'assets/player/player2/jump.png'
+    },
+    jumpLeft: {
+        frameRate: 1,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player2/jumpLeft.png'
+    },
+    hit:{
+        frameRate: 7,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player2/hit.png'
+    },
+    hitLeft: {
+        frameRate: 7,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player2/hitLeft.png'
+    }
+}
+
+const player3Animations = {
+    idleRight: {
+        frameRate: 11,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player3/idle.png'
+    },
+    idleLeft: {
+        frameRate: 11,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player3/idleLeft.png'
+    },
+    runRight: {
+        frameRate: 11,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player3/run.png'
+    },
+    runLeft: {
+        frameRate: 11,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player3/runLeft.png'
+    },
+    jumpRight: {
+        frameRate: 1,
+        frameBuffer: 4,
+        imageSrc: 'assets/player/player3/jump.png'
+    },
+    jumpLeft: {
+        frameRate: 1,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player3/jumpLeft.png'
+    },
+    hit:{
+        frameRate: 7,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player3/hit.png'
+    },
+    hitLeft: {
+        frameRate: 7,
+        frameBuffer: 4,
+        loop: true,
+        imageSrc: 'assets/player/player3/hitLeft.png'
     }
 }
 
@@ -167,6 +267,10 @@ let TARGET_SCORE
 
 // The player
 let player
+let selectedPlayer = {
+    imgSrc: 'assets/player/player1/idleLeft.png',
+    animations: player1Animations
+}
 let gameMap
 let background
 let sawTrap
@@ -187,6 +291,10 @@ const levelBuilderContext = levelBuilderCanvas.getContext('2d')
 const customGame = new CustomGame()
 const customGameCanvas = customGame.getCanvas()
 const customGameContext = customGame.getContext()
+
+const playerSelection = new PlayerSelection()
+const playerSelectionCanvas = playerSelection.getCanvas()
+const playerSelectionContext = playerSelection.getContext()
 
 // constant buttons
 const BUTTONS = {
@@ -275,10 +383,12 @@ let currentLevel = 1
 let gameAnimationId
 let menuAnimationId
 let customGameId
+let playerSelectionAnimationId
 
 // Backgrounds
 let mainMenuBackground
 let customGameBackground
+let selectionBackground
 
 let mainMenuImg
 
@@ -291,8 +401,34 @@ const terrian = {
     numberOfRows: 11
 }
 
+// Initialization of the terrian sprite sheet
+const terrianSpriteSheet = new GameItem('floors', terrian.imgSrc, terrian.tileWidth, terrian.numberOfColumns, terrian.tileHeight, terrian.numberOfRows)
+
 // CUSTOM LEVELS
 let customLevelDataArray = []
 let customLevelCollisionBlocks = []
+let customBlocks = []
+
 let parsedCustomMapCollisionData
 let parsedCustomLevelData
+
+// Skins
+let player1, player2, player3
+let pinkMan = {
+    x: 800,
+    y: 250,
+    imgSrc: 'assets/select-players/selection-player-2.png',
+    frameRate: 11
+}
+let maskMan = {
+    x: 450,
+    y: 250,
+    imgSrc: 'assets/select-players/selection-player-1.png',
+    frameRate: 11
+}
+let virtualGuy = {
+    x: 100,
+    y: 250,
+    imgSrc: 'assets/select-players/selection-player-3.png',
+    frameRate: 11
+}

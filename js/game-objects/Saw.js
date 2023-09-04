@@ -1,7 +1,7 @@
 class Saw extends Trap{
-    constructor(x, y, imgSrc, frameRate, level, context, animations){
+    constructor(x, y, imgSrc, frameRate, level, animations){
         // console.log(x, y, imgSrc, frameRate, level, context, animations);
-        super(x, y, imgSrc, frameRate, context, animations)
+        super(x, y, imgSrc, frameRate, animations)
         this.originalX = this.x
         this.originalY = this.y
         this.velocity = {
@@ -11,7 +11,7 @@ class Saw extends Trap{
         this.level = level
     }
 
-    update(){
+    update(context){
         if(this.level === 1){
             this.x += this.velocity.x
             if(this.x >= this.originalX + 160){
@@ -29,6 +29,6 @@ class Saw extends Trap{
                 this.velocity.y = 2
             }
         }
-        this.draw()
+        this.draw(context)
     }
 }

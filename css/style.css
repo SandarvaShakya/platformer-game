@@ -21,6 +21,15 @@ main{
     width: 100%;
 }
 
+#player-select-canvas{
+    position: absolute;
+    border: 1px solid red;
+    background: transparent;
+    width: 100%;
+    z-index: -1;
+    display: none;
+}
+
 #editor-canvas{
     display: none;
     position: absolute;

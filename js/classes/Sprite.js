@@ -5,9 +5,7 @@ class Sprite{
      * @param {int} x is the x position for the image 
      * @param {int} y is the y position of the image
      */
-    constructor(imgSrc, x, y, frameRate, context, animations, loop = true){
-        // console.log("From Sprite", imgSrc, x, y, frameRate, context, animations);
-        this.gameContext = context
+    constructor(imgSrc, x, y, frameRate, animations, loop = true){
         this.image = new Image()
         this.image.src = imgSrc
         this.isLoaded = false
@@ -40,7 +38,7 @@ class Sprite{
      * Draws the image
      * @returns if the image is not loaded
      */
-    draw(){
+    draw(context){
         if(!this.isLoaded) return
 
         const cropbox = {
@@ -49,7 +47,7 @@ class Sprite{
             width: this.width,
             height: this.height
         }
-        this.gameContext.drawImage(
+        context.drawImage(
             this.image,
             cropbox.x,
             cropbox.y,

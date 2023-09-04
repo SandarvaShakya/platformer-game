@@ -13,12 +13,13 @@
         <!-- <button id="save">Save Map</button> -->
         <!-- <button id="clear">Clear Map</button> -->
         <button id="play-btn">Play Map</button>
-        <!-- <button id="back">Back</button> -->
+        <button id="back">Back</button>
     </div>
     <main class="center">
         <!-- Sprites -->
         <canvas id="editor-canvas"></canvas>
         <canvas id="custom-game-canvas"></canvas>
+        <canvas id="player-select-canvas"></canvas>
         <canvas id="game-canvas"></canvas>
     </main>
 
@@ -26,19 +27,21 @@
     <!-- MAP DATA -->
     <script src="js/data/collision.js"></script>
 
+    <!-- GAME BUILDING BLOCKS -->
+    <script src="js/classes/Sprite.js"></script>
+    <script src="js/classes/Background.js"></script>
+    <script src="js/classes/CollisionBlock.js"></script>
+    <script src="js/classes/Grid.js"></script>
+
     <!-- ALL CANVAS -->
     <script src="js/mainGame/Game.js"></script>
     <script src="js/mapEditor/GameItem.js"></script>
     <script src="js/mapEditor/Editor.js"></script>
     <script src="js/customGame/CustomGame.js"></script>
+    <script src="js/mainGame/PlayerSelection.js"></script>
 
     <!-- ALL GLOBAL VARIABLES AND INITIALIZATION -->
     <script src="js/globals.js"></script>
-
-    <script src="js/classes/Sprite.js"></script>
-    <script src="js/classes/Background.js"></script>
-    <script src="js/classes/CollisionBlock.js"></script>
-    <script src="js/classes/Grid.js"></script>
 
     <script src="js/game-objects/Fruit.js"></script>
     <script src="js/game-objects/Trap.js"></script>

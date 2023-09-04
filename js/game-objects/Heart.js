@@ -11,7 +11,7 @@ class Heart{
         }
     }
 
-    draw(){
+    draw(context){
         if(!this.isLoaded) return
         context.drawImage(this.img, this.x, this.y)
     }

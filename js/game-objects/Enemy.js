@@ -1,6 +1,6 @@
 class Enemy extends Sprite{
-    constructor(x, y, imgSrc, frameRate, context, animations){
-        super(imgSrc, x, y, frameRate, context, animations)
+    constructor(x, y, imgSrc, frameRate, animations){
+        super(imgSrc, x, y, frameRate, animations)
         this.velocity = {
             x: 0,
             y: 0
@@ -9,7 +9,7 @@ class Enemy extends Sprite{
         this.isClose = false
     }
 
-    update(){
+    update(context){
         this.x += this.velocity.x
 
         if(this.isClose){
@@ -31,6 +31,6 @@ class Enemy extends Sprite{
                 this.switchSprite('idle')
             }
         }
-        this.draw()
+        this.draw(context)
     }   
 }

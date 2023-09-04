@@ -47,7 +47,6 @@ const generateFruits = (fruitType, x, y, shape, rows, columns) => {
                         fruitAnimations[fruitType].imageSrc,
                         17,
                         fruitType,
-                        context,
                         fruitAnimations
                     )
                     fruits.push(fruit)
@@ -65,7 +64,6 @@ const generateFruits = (fruitType, x, y, shape, rows, columns) => {
                         fruitAnimations[fruitType].imageSrc,
                         17,
                         fruitType,
-                        context,
                         fruitAnimations
                     );
                     fruits.push(fruit);
@@ -411,71 +409,63 @@ const initializeConstantGameButtons = () => {
         BUTTONS.restart.imgSrc, 
         BUTTONS.restart.position.x, 
         BUTTONS.restart.position.y, 
-        BUTTONS.restart.frameRate, 
-        context
+        BUTTONS.restart.frameRate
     )
     backButton = new Sprite(
         BUTTONS.back.imgSrc, 
         BUTTONS.back.position.x, 
         BUTTONS.back.position.y, 
-        BUTTONS.back.frameRate, 
-        context
+        BUTTONS.back.frameRate
     )
     levelsButton = new Sprite(
         BUTTONS.levels.imgSrc, 
         BUTTONS.levels.position.x, 
         BUTTONS.levels.position.y, 
-        BUTTONS.levels.frameRate, 
-        context
+        BUTTONS.levels.frameRate
     )
     volumeButton = new Sprite(
         BUTTONS.volume.imgSrc, 
         BUTTONS.volume.position.x, 
         BUTTONS.volume.position.y, 
-        BUTTONS.volume.frameRate, 
-        context
+        BUTTONS.volume.frameRate
     )
     playButton = new Sprite(
         BUTTONS.play.imgSrc,
         BUTTONS.play.position.x,
         BUTTONS.play.position.y,
-        BUTTONS.play.frameRate,
-        context
+        BUTTONS.play.frameRate
     )
     choosePlayerButton = new Sprite(
         BUTTONS.choosePlayer.imgSrc,
         BUTTONS.choosePlayer.position.x,
         BUTTONS.choosePlayer.position.y,
         BUTTONS.choosePlayer.frameRate,
-        context
     )
     levelMakerButton = new Sprite(
         BUTTONS.levelMaker.imgSrc,
         BUTTONS.levelMaker.position.x,
         BUTTONS.levelMaker.position.y,
         BUTTONS.levelMaker.frameRate,
-        context
     )
     levelSelectionButton = new Sprite(
         BUTTONS.levelSelection.imgSrc,
         BUTTONS.levelSelection.position.x,
         BUTTONS.levelSelection.position.y,
         BUTTONS.levelSelection.frameRate,
-        context
     )
 }
 
 // Renders the buttons and constant items
-const renderConstantGameItems = () => {
-    restartButton.draw()
-    backButton.draw()
-    levelsButton.draw()
-    volumeButton.draw()
+const renderConstantGameItems = (context) => {
+    restartButton.draw(context)
+    backButton.draw(context)
+    levelsButton.draw(context)
+    volumeButton.draw(context)
 
     displayScore()
 
     hearts.forEach(heart => {
-        heart.draw()
+        heart.draw(context)
     })
 }
 

@@ -1,5 +1,6 @@
 // Player Movements Event Listeners
 window.addEventListener('keydown', (event) => {
+    if(game.state !== 'playing') return
     switch(event.key){
         case 'w':
             if(player.velocity.y === 0) player.jump()
@@ -31,6 +32,7 @@ window.addEventListener('keydown', (event) => {
 
 // Player Movements Event Listeners
 window.addEventListener('keyup', (event) => {
+    if(game.state !== 'playing') return
     switch(event.key){
         case 'w':
             player.stopJump()
@@ -87,7 +89,7 @@ canvas.addEventListener("click", (event) => {
         mouseY <= choosePlayerButton.y + choosePlayerButton.height &&
         game.state === 'main-menu'
     ){
-        console.log("You pressed Choose player");
+        showLevelSelection()
     }
 
     if(
@@ -110,14 +112,10 @@ canvas.addEventListener("click", (event) => {
     ){
         if(!selectionClick){
             selectionClick = true
-            game.changeStateTo('levelSelection')
-            showLevels()
-            console.log(selectionClick);
+            game.showLevels()
         }else{
             selectionClick = false
-            game.changeStateTo('main-menu')
             showMainMenu()
-            console.log(selectionClick);
         }
     }
 
@@ -172,6 +170,95 @@ canvas.addEventListener("click", (event) => {
     }
 });
 
+
+customGameCanvas.addEventListener('click', (event) => {
+    let { mouseX, mouseY } = findMousePos(customGameCanvas, event)
+    // Restart the game
+    if(
+        mouseX >= restartButton.x &&
+        mouseX <= restartButton.x + restartButton.width &&
+        mouseY >= restartButton.y &&
+        mouseY <= restartButton.y + restartButton.height &&
+        game.state === 'playing'
+    ){
+        console.log("Pressed Restart");
+    }
+
+    // Go back to main menu on back press
+    if(
+        mouseX >= backButton.x &&
+        mouseX <= backButton.x + backButton.width &&
+        mouseY >= backButton.y &&
+        mouseY <= backButton.y + backButton.height &&
+        game.state === 'playing'
+    ){
+        cancelAnimationFrame(customGameId)
+        customGame.hide()
+        game.show()
+        showMainMenu()
+    }
+})
+
+playerSelectionCanvas.addEventListener('click', (event) => {
+    let { mouseX, mouseY } = findMousePos(playerSelectionCanvas, event)
+
+    // Go back to main menu on back press
+    if(
+        mouseX >= backButton.x &&
+        mouseX <= backButton.x + backButton.width &&
+        mouseY >= backButton.y &&
+        mouseY <= backButton.y + backButton.height &&
+        game.state === 'playerSelection'
+    ){
+        cancelAnimationFrame(playerSelectionAnimationId)
+        playerSelection.hide()
+        game.show()
+        showMainMenu()
+    }
+
+    // If maskMan is clicked
+    if(
+        mouseX >= player1.x &&
+        mouseX <= player1.x + player1.width &&
+        mouseY >= player1.y &&
+        mouseY <= player1.y + player1.height &&
+        game.state === 'playerSelection'
+    ){
+        selectedPlayer = {
+            imgSrc: 'assets/player/player1/idleLeft.png',
+            animations: player1Animations
+        }
+    }
+
+    // If pinkMan is clicked
+    if(
+        mouseX >= player2.x &&
+        mouseX <= player2.x + player2.width &&
+        mouseY >= player2.y &&
+        mouseY <= player2.y + player2.height &&
+        game.state === 'playerSelection'
+    ){
+        selectedPlayer = {
+            imgSrc: 'assets/player/player2/idleLeft.png',
+            animations: player2Animations
+        }
+    }
+
+    // If virtualGuy is clicked
+    if(
+        mouseX >= player3.x &&
+        mouseX <= player3.x + player3.width &&
+        mouseY >= player3.y &&
+        mouseY <= player3.y + player3.height &&
+        game.state === 'playerSelection'
+    ){
+        selectedPlayer = {
+            imgSrc: 'assets/player/player3/idleLeft.png',
+            animations: player3Animations
+        }
+    }
+})
+
 // The Play button in level editor
 const levelPlayButton = document.getElementById('play-btn')
 levelPlayButton.addEventListener('click', (event) => {
@@ -181,3 +268,4 @@ levelPlayButton.addEventListener('click', (event) => {
 
     initCustomLevel()
 })
+

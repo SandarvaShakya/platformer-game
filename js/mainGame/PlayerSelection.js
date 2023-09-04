@@ -1,25 +1,17 @@
-class Game{
+class PlayerSelection{
     /**
      * Provides the context to all the objects
      */
     constructor(){
         /** @type {HTMLCanvasElement} */
-        this.canvas = document.getElementById('game-canvas')
+        this.canvas = document.getElementById('player-select-canvas')
         /** @type {CanvasRenderingContext2D} */
         this.context = this.canvas.getContext('2d')
-
-        this.levelSelectionImg = new Image()
-        this.levelSelectionImg.src = 'assets/levelSelectionScreen.png'
-        this.levelSelectionImgIsLoaded = false
-        this.levelSelectionImg.onload = () => {
-            this.levelSelectionImgIsLoaded = true
-        }
 
         this.canvas.width = 16 * 64 
         this.canvas.height = 16 * 32
         this.width = this.canvas.width
         this.height = this.canvas.height
-        this.state = "main-menu" 
     }
 
     /**
@@ -59,20 +51,11 @@ class Game{
 
     show(){
         this.canvas.style.display = 'block'
+        this.canvas.style.zIndex = 10
     }
-
+    
     hide(){
         this.canvas.style.display = 'none'
-    }
-
-    changeStateTo(state){
-        this.state = state
-    }
-
-    showLevels(){
-        if(!this.levelSelectionImgIsLoaded) return
-
-        this.changeStateTo('levelSelection')
-        context.drawImage(this.levelSelectionImg, 0, 0)
+        this.canvas.style.zIndex = -1
     }
 }

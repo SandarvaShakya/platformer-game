@@ -11,9 +11,9 @@ class Player extends Sprite{
      * @param {int} frameRate is the number of images in a sprite
      * @param {Array} animations are all the types of sprite a player can be 
      */
-    constructor(x, y, width, height, imgSrc, collisionBlocks, frameRate, canvas, context, animations){
-        super(imgSrc, x, y, frameRate, context, animations)
-        this.canvas = canvas
+    constructor(x, y, width, height, imgSrc, collisionBlocks, frameRate, animations){
+        super(imgSrc, x, y, frameRate, animations)
+        // this.canvas = canvas
         // this.context = context
         this.width = width
         this.height = height
@@ -47,16 +47,17 @@ class Player extends Sprite{
     // /**
     //  * Draws the player on the screen
     //  */
-    // draw(){
-    //     this.context.fillStyle = 'green'
-    //     this.context.fillRect(this.x, this.y, this.width, this.height)
-    //     super.draw()
+    // draw(context){
+    //     console.log("drawing static player");
+    //     context.fillStyle = 'green'
+    //     context.fillRect(this.x, this.y, this.width, this.height)
+    //     super.draw(context)
     // }
 
     /**
      * All visible modifications to the player are done
      */
-    update(){
+    update(context){
         // context.fillStyle = 'blue'
         // context.fillRect(this.x, this.y, this.width, this.height)
         this.x += this.velocity.x
@@ -64,7 +65,7 @@ class Player extends Sprite{
         this.applyGravity()
         this.checkYCollision()
         this.checkHit()
-        this.draw()
+        super.draw(context)
     }
 
     /**
@@ -234,7 +235,7 @@ class Player extends Sprite{
 
     decreaseHealth(){
         if(!this.isHit){
-            player.isHit = true
+            this.isHit = true
             this.health -= 1
             setTimeout(() => {
                 this.isHit = false

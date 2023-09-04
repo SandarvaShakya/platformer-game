@@ -53,7 +53,7 @@ class CustomGame{
     }
 
     hide(){
-        this.canvas.style.display = 'block'
-        this.canvas.style.zIndex = 101
+        this.canvas.style.display = 'none'
+        this.canvas.style.zIndex = -1
     }
 }
