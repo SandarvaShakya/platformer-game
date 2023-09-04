@@ -10,40 +10,49 @@
 <body>
     <div class="sprites-canvas-wrapper center">
         <canvas id="floors"></canvas>
-        <button id="save">Save Map</button>
-        <button id="clear">Clear Map</button>
+        <!-- <button id="save">Save Map</button> -->
+        <!-- <button id="clear">Clear Map</button> -->
         <button id="play-btn">Play Map</button>
-        <button id="back">Back</button>
+        <!-- <button id="back">Back</button> -->
     </div>
     <main class="center">
         <!-- Sprites -->
-        <canvas id="canvas-editor"></canvas>
-        <canvas id="canvas-editor-game"></canvas>
-        <canvas id="canvas-game"></canvas>
+        <canvas id="editor-canvas"></canvas>
+        <canvas id="custom-game-canvas"></canvas>
+        <canvas id="game-canvas"></canvas>
     </main>
 
     <!-- JAVASCRIPT -->
+    <!-- MAP DATA -->
     <script src="js/data/collision.js"></script>
+
+    <!-- ALL CANVAS -->
+    <script src="js/mainGame/Game.js"></script>
+    <script src="js/mapEditor/GameItem.js"></script>
+    <script src="js/mapEditor/Editor.js"></script>
+    <script src="js/customGame/CustomGame.js"></script>
+
+    <!-- ALL GLOBAL VARIABLES AND INITIALIZATION -->
     <script src="js/globals.js"></script>
-    <script src="js/classes/Game.js"></script>
+
     <script src="js/classes/Sprite.js"></script>
     <script src="js/classes/Background.js"></script>
     <script src="js/classes/CollisionBlock.js"></script>
-    <script src="js/classes/Fruit.js"></script>
-    <script src="js/classes/Trap.js"></script>
-    <script src="js/classes/Saw.js"></script>
-    <script src="js/classes/Checkpoint.js"></script>
-    <script src="js/classes/Heart.js"></script>
-    <script src="js/classes/Enemy.js"></script>
-    <script src="js/classes/Player.js"></script>
     <script src="js/classes/Grid.js"></script>
 
+    <script src="js/game-objects/Fruit.js"></script>
+    <script src="js/game-objects/Trap.js"></script>
+    <script src="js/game-objects/Saw.js"></script>
+    <script src="js/game-objects/Checkpoint.js"></script>
+    <script src="js/game-objects/Heart.js"></script>
+    <script src="js/game-objects/Enemy.js"></script>
+    <script src="js/game-objects/Player.js"></script>
+
     <script src="js/RenderBlock.js"></script>
-    <script src="js/classes/Editor.js"></script>
-    <script src="js/EditorCanvas/TilesSprites.js"></script>
-    <script src="js/classes/CustomGame.js"></script>
+
     <script src="js/utils.js"></script>
     <script src="js/eventListeners.js"></script>
+
     <script src="js/main.js"></script>
 </body>
 </html>

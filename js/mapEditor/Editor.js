@@ -1,13 +1,17 @@
-class CustomGame{
+class Editor{
     /**
      * Provides the context to all the objects
      */
     constructor(){
-        this.canvas = document.getElementById('canvas-editor-game')
+        /** @type {HTMLCanvasElement} */
+        this.canvas = document.getElementById('editor-canvas')
+        /** @type {CanvasRenderingContext2D} */
         this.context = this.canvas.getContext('2d')
 
         this.canvas.width = 16 * 64 
         this.canvas.height = 16 * 32 
+        this.width = this.canvas.width
+        this.height = this.canvas.height
     }
 
     /**
@@ -40,13 +44,21 @@ class CustomGame{
      * @param {int} width is the width of the rectangle
      * @param {int} height is the height of the ractangle
      */
-    drawRect(x, y, width, height){
-        this.context.fillStyle = 'red'
+    drawRect(x, y, width, height, color){
+        this.context.fillStyle = color
         this.context.fillRect(x, y, width, height)
     }
 
     show(){
+        this.canvas.style.background = "url('assets/backgrounds/bg1.png')"
+        this.canvas.style.backgroundSize = `contain`;
+        this.canvas.style.zIndex = 100
         this.canvas.style.display = 'block'
-        this.canvas.style.zIndex = 101
+    }
+
+    hide(){
+        this.canvas.style.background = "none"
+        this.canvas.style.zIndex = -1
+        this.canvas.style.display = 'none'
     }
 }

@@ -164,3 +164,135 @@ let collisionBlocks = []
 let fruits = []
 
 let TARGET_SCORE
+
+// The player
+let player
+let gameMap
+let background
+let sawTrap
+let spike
+let checkpoint
+let finish
+let enemy
+let hearts = []
+
+const game = new Game()
+const canvas = game.getCanvas()
+const context = game.getContext()
+
+const levelBuilder = new Editor()
+const levelBuilderCanvas = levelBuilder.getCanvas()
+const levelBuilderContext = levelBuilderCanvas.getContext('2d')
+
+const customGame = new CustomGame()
+const customGameCanvas = customGame.getCanvas()
+const customGameContext = customGame.getContext()
+
+// constant buttons
+const BUTTONS = {
+    restart: {
+        imgSrc: 'assets/buttons/Restart.png',
+        position: {
+            x: canvas.width - 38,
+            y: canvas.height - 36,
+        },
+        frameRate: 1
+    },
+    back:{
+        imgSrc: 'assets/buttons/Backmedium.png',
+        position: {
+            x: canvas.width - 38,
+            y: canvas.height - 36 - 22,
+        },
+        frameRate: 1
+    },
+    volume: {
+        imgSrc: 'assets/buttons/Volume.png',
+        position: {
+            x: canvas.width - 38,
+            y: canvas.height - 36 - 66,
+        },
+        frameRate: 1
+    },
+    levels: {
+        imgSrc: 'assets/buttons/Levels.png',
+        position: {
+            x: canvas.width - 38,
+            y: canvas.height - 36 - 44,
+        },
+        frameRate: 1
+    },
+    play: {
+        imgSrc: 'assets/buttons/playButton.png',
+        position: {
+            x: 295,
+            y: 260,
+        },
+        frameRate: 1
+    },
+    choosePlayer: {
+        imgSrc: 'assets/buttons/choosePlayerButton.png',
+        position: {
+            x: 295,
+            y: 260 + 120,
+        },
+        frameRate: 1
+    },
+    levelMaker: {
+        imgSrc: 'assets/buttons/levelMakerButton.png',
+        position: {
+            x: 0,
+            y: 0,
+        },
+        frameRate: 1
+    },
+    levelSelection: {
+        imgSrc: 'assets/buttons/Levels.png',
+        position: {
+            x: canvas.width - 20,
+            y: 0,
+        },
+        frameRate: 1
+    }
+}
+
+// constant buttons when game is running
+let restartButton
+let backButton
+let levelsButton
+let volumeButton
+let levelSelectionButton
+
+// constant buttons in menu
+let playButton
+let choosePlayerButton
+let levelMakerButton
+
+// Default starting level 1
+let currentLevel = 1
+
+// Animation Id's
+let gameAnimationId
+let menuAnimationId
+let customGameId
+
+// Backgrounds
+let mainMenuBackground
+let customGameBackground
+
+let mainMenuImg
+
+// Information for terrian canvas
+const terrian = {
+    imgSrc: 'assets/editor-sprites/terrian.png',
+    tileWidth: 16,
+    numberOfColumns: 22,
+    tileHeight: 16,
+    numberOfRows: 11
+}
+
+// CUSTOM LEVELS
+let customLevelDataArray = []
+let customLevelCollisionBlocks = []
+let parsedCustomMapCollisionData
+let parsedCustomLevelData

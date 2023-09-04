@@ -15,20 +15,20 @@ main{
     align-items: center;
 }
 
-#canvas-game{
+#game-canvas{
     border: 1px solid black;
     background: transparent;
     width: 100%;
 }
 
-#canvas-editor{
+#editor-canvas{
     display: none;
     position: absolute;
     z-index: -1;
     top: 190px
 }
 
-#canvas-editor-game{
+#custom-game-canvas{
     border: 5px solid black;
     position: absolute;
     display: none;

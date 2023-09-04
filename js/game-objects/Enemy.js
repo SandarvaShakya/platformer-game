@@ -9,12 +9,6 @@ class Enemy extends Sprite{
         this.isClose = false
     }
 
-    // draw(){
-    //     context.fillStyle = 'rgba(255, 0, 0, 0.5)'
-    //     context.fillRect(this.x, this.y, this.width, this.height)
-    //     super.draw()
-    // }
-
     update(){
         this.x += this.velocity.x
 
@@ -37,5 +31,6 @@ class Enemy extends Sprite{
                 this.switchSprite('idle')
             }
         }
+        this.draw()
     }   
 }

@@ -17,7 +17,6 @@ class RenderBlock{
 
     draw(){
         if(!this.isLoaded) return
-
         this.context.drawImage(this.img, this.x, this.y)
     }
 }

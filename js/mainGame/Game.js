@@ -3,11 +3,14 @@ class Game{
      * Provides the context to all the objects
      */
     constructor(){
-        this.canvas = document.getElementById('canvas-game')
+        /** @type {HTMLCanvasElement} */
+        this.canvas = document.getElementById('game-canvas')
+        /** @type {CanvasRenderingContext2D} */
         this.context = this.canvas.getContext('2d')
 
         this.canvas.width = 16 * 64 
-        this.canvas.height = 16 * 32 
+        this.canvas.height = 16 * 32
+        this.state = "main-menu" 
     }
 
     /**
@@ -45,10 +48,15 @@ class Game{
         this.context.fillRect(x, y, width, height)
     }
 
-    static getInstance() {
-        if (!this.instance) {
-            this.instance = new Game();
-        }
-        return this.instance;
+    show(){
+        this.canvas.style.display = 'block'
+    }
+
+    hide(){
+        this.canvas.style.display = 'none'
+    }
+
+    changeStateTo(state){
+        this.state = state
     }
 }
