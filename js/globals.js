@@ -369,6 +369,38 @@ const BUTTONS = {
             y: 80,
         },
         frameRate: 1
+    },
+    bigBack: {
+        imgSrc: 'assets/buttons/BackBig.png',
+        position: {
+            x: 350,
+            y: 215,
+        },
+        frameRate: 1
+    },
+    bigNext: {
+        imgSrc: 'assets/buttons/NextBig.png',
+        position: {
+            x: 465,
+            y: 215,
+        },
+        frameRate: 1
+    },
+    bigLevel: {
+        imgSrc: 'assets/buttons/LevelsBig.png',
+        position: {
+            x: 580,
+            y: 215,
+        },
+        frameRate: 1
+    },
+    bigRestart: {
+        imgSrc: 'assets/buttons/RestartBig.png',
+        position: {
+            x: 465,
+            y: 215,
+        },
+        frameRate: 1
     }
 }
 
@@ -384,6 +416,12 @@ let playButton
 let choosePlayerButton
 let levelMakerButton
 let savedGamesButton
+
+// constant buttons in gameover and next-level
+let backBigButton
+let levelBigButton
+let nextBigButton
+let restartBigButton
 
 // Default starting level 1
 let currentLevel = 1

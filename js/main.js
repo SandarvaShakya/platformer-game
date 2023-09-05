@@ -89,6 +89,7 @@ initializeConstantGameButtons()
 // the main game loop
 const gameLoop = () => {
     gameAnimationId = requestAnimationFrame(gameLoop)
+    // displayGameover(context)
 
     // background and map
     background.update()
@@ -124,8 +125,8 @@ const gameLoop = () => {
             player.decreaseHealth()
             hearts.splice(player.health, 1)
             if(player.health === 0){
-                displayGameover()
-                game.state = 'gameover'
+                displayGameover(context)
+                // game.state = 'gameover'
                 cancelAnimationFrame(gameAnimationId)
             }
         }
@@ -139,8 +140,8 @@ const gameLoop = () => {
             player.decreaseHealth()
             hearts.splice(player.health, 1)
             if(player.health === 0){
-                displayGameover()
-                game.state = 'gameover'
+                displayGameover(context)
+                // game.state = 'gameover'
                 cancelAnimationFrame(gameAnimationId)
             }
         }
@@ -154,7 +155,7 @@ const gameLoop = () => {
     if(hasCollided(player, finish)){
         if(player.score === TARGET_SCORE){
             if(finish.currentFrame === finish.frameRate - 1){
-                displayNextLevel()
+                displayNextLevel(context)
                 game.changeStateTo('next-level')
                 cancelAnimationFrame(gameAnimationId)
             }
@@ -184,7 +185,7 @@ const gameLoop = () => {
             player.decreaseHealth()
             hearts.splice(player.health, 1)
             if(player.health === 0){
-                displayGameover()
+                displayGameover(context)
                 game.state = 'gameover'
                 cancelAnimationFrame(gameAnimationId)
             }
@@ -213,8 +214,8 @@ const showLevelBuilder = () => {
     game.hide()
     levelBuilder.show()
     terrianSpriteSheet.show()
-
-    renderGrid()
+    
+    levelBuilder.renderGrid()
 }
 
 const renderCustomGameUI = () => {

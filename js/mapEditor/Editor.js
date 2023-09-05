@@ -61,4 +61,12 @@ class Editor{
         this.canvas.style.zIndex = -1
         this.canvas.style.display = 'none'
     }
+
+    /**
+     * This function draws the grid in the level editor canvas
+     */
+    renderGrid(){
+        let grid = new Grid(this.width, this.height, 'black', 16, 16)
+        grid.draw(this.context)
+    }
 }

@@ -100,7 +100,6 @@ canvas.addEventListener("click", (event) => {
         mouseY <= levelMakerButton.y + levelMakerButton.height &&
         game.state === 'main-menu'
     ){
-        game.changeStateTo('levelBuilder')
         showLevelBuilder()
     }
 
@@ -145,29 +144,44 @@ canvas.addEventListener("click", (event) => {
 
     // check for back press
     if(
-        mouseX >= 361 &&
-        mouseX <= 417 &&
-        mouseY >= 241 &&
-        mouseY <= 285 &&
+        mouseX >= backBigButton.x &&
+        mouseX <= backBigButton.x + backBigButton.width &&
+        mouseY >= backBigButton.y &&
+        mouseY <= backBigButton.y + backBigButton.height &&
         (game.state === 'next-level' || game.state === 'gameover')
     ){
-        game.state = 'back'
         currentLevel = 1
         showMainMenu()
     }
 
     if(
-        mouseX >= 480 &&
-        mouseX <= 527 &&
-        mouseY >= 240 &&
-        mouseY <= 285 &&
+        mouseX >= nextBigButton.x &&
+        mouseX <= nextBigButton.x + nextBigButton.width &&
+        mouseY >= nextBigButton.y &&
+        mouseY <= nextBigButton.y + nextBigButton.height &&
         game.state === 'next-level'
     ){
+        let numberOfLevels = Object.keys(levels).length
+        if(numberOfLevels === currentLevel){
+            currentLevel = 1
+            showMainMenu()
+            return
+        } 
+
         currentLevel++
         if(levels[currentLevel]){
             levels[currentLevel].init()
-            game.state = 'playing'
         }
+    }
+
+    if(
+        mouseX >= restartBigButton.x &&
+        mouseX <= restartBigButton.x + restartBigButton.width &&
+        mouseY >= restartBigButton.y &&
+        mouseY <= restartBigButton.y + restartBigButton.height &&
+        game.state === 'gameover'
+    ){
+        restartGame()
     }
 });
 

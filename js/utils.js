@@ -11,6 +11,11 @@ const parseArrayIn2D = (array, numberOfTiles) => {
     return rows
 }
 
+/**
+ * This function accepts 1D array and pareses it into 2D Array then makes the collision blocks
+ * @param {Array} collisionData the collision array which has information of each tile's collision blocks
+ * @param {int} block the number which represents the collision block in the collisionData
+ */
 const addCollisionBlocks = (collisionData, block) => {
     let parsedData = parseArrayIn2D(collisionData, 64)
     // generation of collision blocks from the collision data
@@ -23,8 +28,12 @@ const addCollisionBlocks = (collisionData, block) => {
     })
 }
 
+/**
+ * This function accepts 2D parsed array and then makes the collision blocks
+ * @param {Array} collisionData the collision array which has information of each tile's collision blocks
+ * @param {int} block the number which represents the collision block in the collisionData
+ */
 const addParsedCollisionBlocks = (parsedCustomMapCollisionData, block, context) => {
-    // generation of collision blocks from the collision data
     parsedCustomMapCollisionData.forEach((row, rowIndex) => {
         row.forEach((tile, tileIndex) => {
             if(tile === block){
@@ -32,56 +41,6 @@ const addParsedCollisionBlocks = (parsedCustomMapCollisionData, block, context) 
             }
         })
     })
-}
-
-const generateFruits = (fruitType, x, y, shape, rows, columns) => {
-    let fruitX = x
-    let fruitY = y
-
-    switch(shape){
-        case 'rect':
-            for(let j = 0; j < rows; j++){
-                for(let i = 0; i < columns; i++){
-                    let fruit = new Fruit(
-                        fruitX, fruitY, 
-                        fruitAnimations[fruitType].imageSrc,
-                        17,
-                        fruitType,
-                        fruitAnimations
-                    )
-                    fruits.push(fruit)
-                    fruitX += 30
-                }
-                fruitX = x
-                fruitY -= 40
-            }
-            break
-        case 'triangle':
-            for(let j = 0; j < rows; j++){
-                for(let i = 0; i < (columns - j); i++){
-                    let fruit = new Fruit(
-                        fruitX, fruitY, 
-                        fruitAnimations[fruitType].imageSrc,
-                        17,
-                        fruitType,
-                        fruitAnimations
-                    );
-                    fruits.push(fruit);
-                    fruitX += 40;
-                }
-                // fruitX = x + (15 * j);
-                fruitX = x + 20 + (20 * j)
-                fruitY -= 30;
-            }
-            break
-    }
-}
-
-const generateTargetScore = () => {
-    TARGET_SCORE = fruits.reduce((sum, currentFruit) => {
-        sum += currentFruit.scorePerFruit
-        return sum
-    }, 0)
 }
 
 /**
@@ -103,41 +62,20 @@ const hasCollided = (object1, object2) => {
 }
 
 /**
- *  Displays the score while playing the game
+ * This function measure the distance between two objects which has x and y coordinates
+ * 
+ * @param {Object} obj1 the first object whose distance with the second object is to be measured (usually of type player)
+ * @param {Object} obj2 the second object whose distance with the first object is to be measured (ususallu of type enemy)
+ * @returns 
  */
-const displayScore = () => {
-    context.fillStyle = 'white'
-    context.font = '16px Arial'
-    context.fillText(`Score: ${player.score}`, 18, 56)
-}
-
-const displayGameover = () => {
-    let gameoverImg = new Image()
-    gameoverImg.src = 'assets/gameover.png'
-    console.log("Game over brother");
-    gameoverImg.onload = () => {
-        context.drawImage(gameoverImg, 0, 0)
-    }
-}
-
-const displayNextLevel = () => {
-    let nextLevelImg = new Image()
-    nextLevelImg.src = 'assets/nextLevel.png'
-    nextLevelImg.onload = () => {
-        context.drawImage(nextLevelImg, 0, 0)
-        context.font = '32px Arial'
-        context.fillStyle = 'white'
-        context.fillText(`${player.score}`, 566, 188)
-    }
-}
-
 const measureXDistance = (obj1, obj2) => {
     let distance = Math.floor((Math.sqrt(Math.pow((obj2.x - obj1.x),2) + Math.pow((obj2.y - obj1.y), 2))))
     return distance
 }
 
 /**
- * Generetare and parses the data and collision arrays for level editor
+ * This function initializes the custom level's sprite data and the collisionBlocks of custom level to [0]
+ * then parses it to 2D (64x32)
  */
 const generateCustomLevelDataArrays = () => {
     for(let i = 0; i < 64 * 32; i++){
@@ -149,17 +87,9 @@ const generateCustomLevelDataArrays = () => {
 }
 
 /**
- * Draws the grid in the level editor canvas
- */
-const renderGrid = () => {
-    let grid = new Grid(levelBuilderCanvas.width, levelBuilderCanvas.height, 'black', 16, 16)
-    grid.draw(levelBuilderContext)
-}
-
-/**
- * Checks if the object exists in an array
- * @param {Object} object 
- * @param {Array} array 
+ * This function checks if the object exists in an array
+ * @param {Object} object the object that needs to be checked
+ * @param {Array} array the array in which the object is checked
  * @returns boolean
  */
 function objectExistsInArray(object, array) {
@@ -370,39 +300,6 @@ const mapTile = (mappingNumber) => {
     }
 }
 
-/**
- * This function makes the clicked tile red
- * @param {int} mouseX the x position of the mouse
- * @param {int} mouseY the y position of the mouse
- * @param {int} columnIndex the index of the 1D array
- * @param {int} rowIndex the index of the 2D array
- */
-const showSelectedRegion = (mouseX, mouseY, columnIndex, rowIndex) => {
-    let tileX = columnIndex * 16
-    let tileWidth = (columnIndex * 16) + 16
-    let tileY = rowIndex * 16
-    let tileHeight = (rowIndex * 16) + 16
-    let selectedBox = {
-        x: tileX,
-        y: tileY,
-        width: tileWidth,
-        height: tileHeight,
-        rowIndex,
-        columnIndex
-    }
-    if(
-        mouseX > tileX &&
-        mouseX < tileWidth &&
-        mouseY > tileY &&
-        mouseY < tileHeight &&
-        !objectExistsInArray(selectedBox, selectedBoxes)
-    ){
-        let tileColor = 'rgba(255, 0, 0, 0.5)'
-        levelBuilder.drawRect(tileX, tileY, 16, 16, tileColor)
-        selectedBoxes.push(selectedBox)
-    }
-}
-
 // Function to initialize the constant buttons
 const initializeConstantGameButtons = () => {
     restartButton = new Sprite(
@@ -459,6 +356,30 @@ const initializeConstantGameButtons = () => {
         BUTTONS.savedGames.position.y,
         BUTTONS.savedGames.frameRate,
     )
+    backBigButton = new Sprite(
+        BUTTONS.bigBack.imgSrc,
+        BUTTONS.bigBack.position.x,
+        BUTTONS.bigBack.position.y,
+        BUTTONS.bigBack.frameRate,
+    )
+    nextBigButton = new Sprite(
+        BUTTONS.bigNext.imgSrc,
+        BUTTONS.bigNext.position.x,
+        BUTTONS.bigNext.position.y,
+        BUTTONS.bigNext.frameRate,
+    )
+    levelBigButton = new Sprite(
+        BUTTONS.bigLevel.imgSrc,
+        BUTTONS.bigLevel.position.x,
+        BUTTONS.bigLevel.position.y,
+        BUTTONS.bigLevel.frameRate,
+    )
+    restartBigButton = new Sprite(
+        BUTTONS.bigRestart.imgSrc,
+        BUTTONS.bigRestart.position.x,
+        BUTTONS.bigRestart.position.y,
+        BUTTONS.bigRestart.frameRate,
+    )
 }
 
 // Renders the buttons and constant items
@@ -468,7 +389,7 @@ const renderConstantGameItems = (context) => {
     levelsButton.draw(context)
     volumeButton.draw(context)
 
-    displayScore()
+    displayScore(context)
 
     hearts.forEach(heart => {
         heart.draw(context)

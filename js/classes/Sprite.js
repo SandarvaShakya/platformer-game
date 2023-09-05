@@ -40,7 +40,7 @@ class Sprite{
      */
     draw(context){
         if(!this.isLoaded) return
-
+        
         const cropbox = {
             x: this.width * this.currentFrame,
             y: 0,
