@@ -112,7 +112,7 @@ canvas.addEventListener("click", (event) => {
     ){
         if(!selectionClick){
             selectionClick = true
-            game.showLevels()
+            game.showLevels(context)
         }else{
             selectionClick = false
             showMainMenu()

@@ -69,10 +69,11 @@ class Game{
         this.state = state
     }
 
-    showLevels(){
+    showLevels(context){
         if(!this.levelSelectionImgIsLoaded) return
 
         this.changeStateTo('levelSelection')
         context.drawImage(this.levelSelectionImg, 0, 0)
+
     }
 }
