@@ -82,22 +82,16 @@ levels = {
         }
     }
 }
-const parsedTerrianData = parseArrayIn2D(terrianData, 22)
 
 initializeConstantGameButtons()
 
 // the main game loop
 const gameLoop = () => {
     gameAnimationId = requestAnimationFrame(gameLoop)
-    // displayGameover(context)
 
     // background and map
     background.update()
     gameMap.draw(context)
-
-    // collisionBlocks.forEach(block => {
-    //     block.draw()
-    // })
 
     // constant buttons
     renderConstantGameItems(context)
@@ -147,6 +141,7 @@ const gameLoop = () => {
         }
     } 
 
+    // Finish
     finish.draw(context)
     if(player.score === TARGET_SCORE){
         finish.switchSprite('endReached')
@@ -162,9 +157,9 @@ const gameLoop = () => {
         }
     }
 
-    checkpoint && checkpoint.draw(context)
-    // check collision with the checkpoint
+    // Checkpoint
     if(checkpoint){
+        checkpoint.draw(context)
         if(hasCollided(player, checkpoint)){
             if(!player.checkpointReached){
                 checkpoint.switchSprite('checkpointReached')
@@ -178,6 +173,7 @@ const gameLoop = () => {
         }
     }
 
+    // Enemy
     if(enemy){
         enemy.update(context)
 
@@ -198,57 +194,8 @@ const gameLoop = () => {
         }
     }
 
+    // Player
     player.update(context)
-}
-
-///////////Level Builder////////////////////////////////////////
-const showLevelBuilder = () => {
-    game.changeStateTo('levelBuilder')
-    levelBuilderContext.clearRect(0, 0, levelBuilder.width, levelBuilder.height)
-    collisionBlocks = []
-    generateCustomLevelDataArrays()
-
-    cancelAnimationFrame(menuAnimationId)
-    cancelAnimationFrame(gameAnimationId)
-
-    game.hide()
-    levelBuilder.show()
-    terrianSpriteSheet.show()
-    
-    levelBuilder.renderGrid()
-}
-
-const renderCustomGameUI = () => {
-    customBlocks = []
-    parsedCustomLevelData.forEach((row, rowIndex) => {
-        row.forEach((blockData, blockDataIndex) => {
-            let imgSrc = mapTile(blockData)
-            blockX = blockDataIndex * 16
-            blockY = rowIndex * 16
-            if(imgSrc) customBlocks.push(new RenderBlock(blockX, blockY, 16, 16, imgSrc, customGameContext))
-        })
-    })
-}
-
-const initCustomLevel = () => {
-    customGameContext.clearRect(0, 0, customGameCanvas.width, customGameCanvas.height)
-    addParsedCollisionBlocks(parsedCustomMapCollisionData, 733, customGameContext)
-
-    player = new Player(20, 20, 32, 32, selectedPlayer.imgSrc, collisionBlocks, 11, selectedPlayer.animations)
-    customGameBackground = new Background('assets/backgrounds/bg1.png', 0, 0, canvas.width, canvas.height, customGameContext)
-    renderCustomGameUI()
-    startCustomGame()
-}
-
-const startCustomGame = () => {
-    game.changeStateTo('playing')
-    customGameId = requestAnimationFrame(startCustomGame)
-    customGameBackground.update()
-    customBlocks.forEach(block => {
-        block.draw()
-    })
-    renderConstantGameItems(customGameContext)
-    player.update(customGameContext)
 }
 
 window.onload = () => {

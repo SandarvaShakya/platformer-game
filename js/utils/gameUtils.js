@@ -41,3 +41,114 @@ const displayNextLevel = (context) => {
         levelBigButton.draw(context)
     }
 }
+
+/**
+ * This function initializes the buttons like restart button etc.
+ */
+const initializeConstantGameButtons = () => {
+    restartButton = new Sprite(
+        BUTTONS.restart.imgSrc, 
+        BUTTONS.restart.position.x, 
+        BUTTONS.restart.position.y, 
+        BUTTONS.restart.frameRate
+    )
+    backButton = new Sprite(
+        BUTTONS.back.imgSrc, 
+        BUTTONS.back.position.x, 
+        BUTTONS.back.position.y, 
+        BUTTONS.back.frameRate
+    )
+    levelsButton = new Sprite(
+        BUTTONS.levels.imgSrc, 
+        BUTTONS.levels.position.x, 
+        BUTTONS.levels.position.y, 
+        BUTTONS.levels.frameRate
+    )
+    volumeButton = new Sprite(
+        BUTTONS.volume.imgSrc, 
+        BUTTONS.volume.position.x, 
+        BUTTONS.volume.position.y, 
+        BUTTONS.volume.frameRate
+    )
+    playButton = new Sprite(
+        BUTTONS.play.imgSrc,
+        BUTTONS.play.position.x,
+        BUTTONS.play.position.y,
+        BUTTONS.play.frameRate
+    )
+    choosePlayerButton = new Sprite(
+        BUTTONS.choosePlayer.imgSrc,
+        BUTTONS.choosePlayer.position.x,
+        BUTTONS.choosePlayer.position.y,
+        BUTTONS.choosePlayer.frameRate,
+    )
+    levelMakerButton = new Sprite(
+        BUTTONS.levelMaker.imgSrc,
+        BUTTONS.levelMaker.position.x,
+        BUTTONS.levelMaker.position.y,
+        BUTTONS.levelMaker.frameRate,
+    )
+    levelSelectionButton = new Sprite(
+        BUTTONS.levelSelection.imgSrc,
+        BUTTONS.levelSelection.position.x,
+        BUTTONS.levelSelection.position.y,
+        BUTTONS.levelSelection.frameRate,
+    )
+    savedGamesButton = new Sprite(
+        BUTTONS.savedGames.imgSrc,
+        BUTTONS.savedGames.position.x,
+        BUTTONS.savedGames.position.y,
+        BUTTONS.savedGames.frameRate,
+    )
+    backBigButton = new Sprite(
+        BUTTONS.bigBack.imgSrc,
+        BUTTONS.bigBack.position.x,
+        BUTTONS.bigBack.position.y,
+        BUTTONS.bigBack.frameRate,
+    )
+    nextBigButton = new Sprite(
+        BUTTONS.bigNext.imgSrc,
+        BUTTONS.bigNext.position.x,
+        BUTTONS.bigNext.position.y,
+        BUTTONS.bigNext.frameRate,
+    )
+    levelBigButton = new Sprite(
+        BUTTONS.bigLevel.imgSrc,
+        BUTTONS.bigLevel.position.x,
+        BUTTONS.bigLevel.position.y,
+        BUTTONS.bigLevel.frameRate,
+    )
+    restartBigButton = new Sprite(
+        BUTTONS.bigRestart.imgSrc,
+        BUTTONS.bigRestart.position.x,
+        BUTTONS.bigRestart.position.y,
+        BUTTONS.bigRestart.frameRate,
+    )
+}
+
+/**
+ * This function renders the constant UI required in all levels or game
+ * @param {HTMLCanvasElementContext} context the context where the items are to be rendered
+ */
+const renderConstantGameItems = (context) => {
+    restartButton.draw(context)
+    backButton.draw(context)
+    levelsButton.draw(context)
+    volumeButton.draw(context)
+
+    displayScore(context)
+
+    hearts.forEach(heart => {
+        heart.draw(context)
+    })
+}
+
+/**
+ * This function restarts level which is being played
+ */
+const restartGame = () => {
+    cancelAnimationFrame(gameAnimationId)
+    if(levels[currentLevel]){
+        levels[currentLevel].init()
+    }
+}

@@ -1,3 +1,6 @@
+// The parsed 2D data array of all the terrian blocks
+const parsedTerrianData = parseArrayIn2D(terrianData, 22)
+
 /**
  * This function makes the clicked tile red in the map editor
  * @param {int} mouseX the x position of the mouse
