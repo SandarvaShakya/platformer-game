@@ -465,6 +465,9 @@ let selectedBoxes = []
 // The image clicked in terrian canvas
 let clickedImg = new Image()
 
+// To check of mouse is down or not
+let mouseDown = false
+
 // Skins
 let player1, player2, player3
 let pinkMan = {

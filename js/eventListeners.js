@@ -244,6 +244,10 @@ playerSelectionCanvas.addEventListener('click', (event) => {
             imgSrc: 'assets/player/player1/idleLeft.png',
             animations: player1Animations
         }
+        cancelAnimationFrame(playerSelectionAnimationId)
+        playerSelection.hide()
+        game.show()
+        showMainMenu()
     }
 
     // If pinkMan is clicked
@@ -258,6 +262,10 @@ playerSelectionCanvas.addEventListener('click', (event) => {
             imgSrc: 'assets/player/player2/idleLeft.png',
             animations: player2Animations
         }
+        cancelAnimationFrame(playerSelectionAnimationId)
+        playerSelection.hide()
+        game.show()
+        showMainMenu()
     }
 
     // If virtualGuy is clicked
@@ -272,17 +280,33 @@ playerSelectionCanvas.addEventListener('click', (event) => {
             imgSrc: 'assets/player/player3/idleLeft.png',
             animations: player3Animations
         }
+        cancelAnimationFrame(playerSelectionAnimationId)
+        playerSelection.hide()
+        game.show()
+        showMainMenu()
     }
 })
 
-// click event when the level editor's grid is clicked
-levelBuilderCanvas.addEventListener('click', (event) => {
-    let { mouseX, mouseY } = findMousePos(levelBuilderCanvas, event)
-    parsedCustomLevelData.forEach((row, rowIndex) => {
-        row.forEach((column, columnIndex) => {
-            showSelectedRegion(mouseX, mouseY, columnIndex, rowIndex)
+// Add selection blocks when mouse is moving and mouse is down
+levelBuilderCanvas.addEventListener('mousemove', () => {
+    if(mouseDown){
+        let { mouseX, mouseY } = findMousePos(levelBuilderCanvas, event)
+        parsedCustomLevelData.forEach((row, rowIndex) => {
+            row.forEach((column, columnIndex) => {
+                showSelectedRegion(mouseX, mouseY, columnIndex, rowIndex)
+            })
         })
-    })
+    }
+})
+
+// sets the mouseDown
+levelBuilderCanvas.addEventListener('mousedown', (event) => {
+    mouseDown = true
+})
+
+// resets the mouseDown
+levelBuilderCanvas.addEventListener('mouseup', (event) => {
+    mouseDown = false
 })
 
 // add the clicked terrian data and image on click to the terrian canvas
