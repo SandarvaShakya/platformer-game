@@ -327,3 +327,10 @@ levelPlayButton.addEventListener('click', (event) => {
 
     initCustomLevel()
 })
+
+// The clear button in level editor
+const levelClearButton = document.getElementById('clear-btn')
+levelClearButton.addEventListener('click', (event) => {
+    clearMap()
+    showLevelBuilder()
+})

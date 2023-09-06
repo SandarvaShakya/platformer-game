@@ -33,3 +33,13 @@ const showSelectedRegion = (mouseX, mouseY, columnIndex, rowIndex) => {
         selectedBoxes.push(selectedBox)
     }
 }
+
+/**
+ * This function clears the map editor
+ */
+const clearMap = () => {
+    parsedCustomLevelData = []
+    parsedCustomMapCollisionData = []
+    customBlocks = []
+    selectedBoxes = []
+}
