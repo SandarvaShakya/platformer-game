@@ -210,7 +210,7 @@ customGameCanvas.addEventListener('click', (event) => {
         cancelAnimationFrame(customGameId)
         customGame.hide()
         levelBuilder.show()
-        showLevelBuilder()
+        terrianSpriteSheet.show()
     }
 })
 
