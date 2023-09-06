@@ -4,9 +4,10 @@
     box-sizing: border-box;
 }
 
-main{
+section{
     min-height: 100vh;
     position: relative;
+    background-color: #f1f1f1;
 }
 
 .center{
@@ -16,14 +17,12 @@ main{
 }
 
 #game-canvas{
-    border: 1px solid black;
     background: transparent;
     width: 100%;
 }
 
 #player-select-canvas{
     position: absolute;
-    border: 1px solid red;
     background: transparent;
     width: 100%;
     z-index: -1;
@@ -38,7 +37,6 @@ main{
 }
 
 #custom-game-canvas{
-    border: 5px solid black;
     position: absolute;
     display: none;
     width: 100%;
@@ -50,10 +48,60 @@ main{
     width: 100%;
 }
 
-#floors,
-#fruits,
-#traps,
-#win{
+#floors{
     width: 25%;
-    border: 2px solid black;
+}
+
+.button-group{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-left: 1rem;
+    margin-bottom: auto;
+}
+
+#clear-btn,
+#play-btn,
+#back-btn,
+#save-btn{
+    padding: 0.65rem 1.2rem;
+    cursor: pointer;
+    border-radius: 8px;
+    border: none;
+}
+
+#clear-btn{
+    background-color: coral;
+    color: white;
+}
+
+#clear-btn:hover{
+    background-color: rgb(215, 93, 48);
+}
+
+#play-btn{
+    background-color: cornflowerblue;
+    color: white;
+}
+
+#play-btn:hover{
+    background-color: rgb(59, 107, 197);
+}
+
+#back-btn{
+    background-color: crimson;
+    color: white;
+}
+
+#back-btn:hover{
+    background-color: rgb(190, 4, 41)
+}
+
+#save-btn{
+    background-color: green;
+    color: white;
+}
+
+#save-btn:hover{
+    background-color: rgb(0, 88, 0)
 }

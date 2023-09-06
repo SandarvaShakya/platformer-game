@@ -209,8 +209,8 @@ customGameCanvas.addEventListener('click', (event) => {
     ){
         cancelAnimationFrame(customGameId)
         customGame.hide()
-        game.show()
-        showMainMenu()
+        levelBuilder.show()
+        showLevelBuilder()
     }
 })
 
@@ -333,4 +333,14 @@ const levelClearButton = document.getElementById('clear-btn')
 levelClearButton.addEventListener('click', (event) => {
     clearMap()
     showLevelBuilder()
+})
+
+// The back button in level editor
+const levelBackButton = document.getElementById('back-btn')
+levelBackButton.addEventListener('click', (event) => {
+    levelBuilder.hide()
+    terrianSpriteSheet.hide()
+
+    game.show()
+    showMainMenu()
 })
