@@ -51,7 +51,8 @@ levels = {
 
             // Traps
             sawTrap = new Saw(180, 160, 'assets/traps/saw/on.png', 8, 2, sawAnimations)
-            spike = new Trap(750, 304, 'assets/traps/spikes/idle.png', 1)
+            // spike = new Trap(750, 304, 'assets/traps/spikes/idle.png', 1)
+            spike = null
 
             // Enemies
             enemy = new Enemy(950, 205, 'assets/enemies/rhino/idle.png', 11, rhinoAnimations)

@@ -14,7 +14,7 @@ class Enemy extends Sprite{
 
         if(this.isClose){
             if(this.x === this.originalX){
-                this.velocity.x = -2
+                this.velocity.x = -4
                 this.switchSprite('runLeft')
             }else if(this.x === this.originalX - 140){
                 this.velocity.x = 0
