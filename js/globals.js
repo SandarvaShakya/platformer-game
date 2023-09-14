@@ -468,6 +468,8 @@ let clickedImg = new Image()
 // To check of mouse is down or not
 let mouseDown = false
 
+let levelIcons = []
+
 // Skins
 let player1, player2, player3
 let pinkMan = {

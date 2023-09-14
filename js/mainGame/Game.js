@@ -70,10 +70,23 @@ class Game{
     }
 
     showLevels(context){
-        if(!this.levelSelectionImgIsLoaded) return
+        if(!this.levelSelectionImgIsLoaded) console.log("Not loaded Image");
 
         this.changeStateTo('levelSelection')
         context.drawImage(this.levelSelectionImg, 0, 0)
-
+        
+        const numberOflevels = Object.keys(levels)
+        let levelX = 340
+        const levelY = 200
+        // levelIcons = []
+        numberOflevels.forEach(level => {
+            let levelIconSrc = `assets/levels/${level}.png`
+            levelIcons.push(new LevelIcon(levelX, levelY, levelIconSrc))
+            levelX += 40
+        })
+        
+        levelIcons.forEach(levelIcon => {
+            levelIcon.draw(this.context)
+        })
     }
 }
