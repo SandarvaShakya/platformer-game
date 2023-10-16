@@ -205,13 +205,13 @@ const checkPointAnimations = {
 		frameRate: 26,
 		frameBuffer: 4,
 		loop: false,
-		imageSrc: "assets/checkpoint/outCheckPoint.png",
+		imageSrc: "assets/checkpoint/outCheckpoint.png",
 	},
 	checkpointIdle: {
 		frameRate: 10,
 		frameBuffer: 4,
 		loop: true,
-		imageSrc: "assets/checkpoint/IdleCheckPoint.png",
+		imageSrc: "assets/checkpoint/IdleCheckpoint.png",
 	},
 };
 

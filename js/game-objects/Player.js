@@ -67,8 +67,6 @@ class Player extends Sprite {
 	 * All visible modifications to the player are done
 	 */
 	update(context) {
-		// context.fillStyle = 'blue'
-		// context.fillRect(this.x, this.y, this.width, this.height)
 		this.x += this.velocity.x;
 		this.checkXCollision();
 		this.applyGravity();
