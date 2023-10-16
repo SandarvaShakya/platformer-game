@@ -2,6 +2,8 @@ initializeConstantGameButtons();
 
 // the main game loop
 const gameLoop = () => {
+	LEVEL_COMPLETE_AUDIO.pause();
+	LEVEL_COMPLETE_AUDIO.currentTime = 0;
 	MAIN_AUDIO.pause();
 	MAIN_AUDIO.currentTime = 0;
 	GAME_AUDIO.volume = 0.3;
@@ -74,7 +76,6 @@ const gameLoop = () => {
 			if (finish.currentFrame === finish.frameRate - 1) {
 				GAME_AUDIO.volume = 0.1;
 				LEVEL_COMPLETE_AUDIO.play();
-				LEVEL_COMPLETE_AUDIO.currentTime = 0;
 				GAME_AUDIO.volume = 0.3;
 				displayNextLevel(context);
 				game.changeStateTo("next-level");
