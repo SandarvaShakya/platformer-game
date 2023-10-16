@@ -39,7 +39,7 @@ const animateMenu = () => {
 		choosePlayerButton.draw(context);
 		levelMakerButton.draw(context);
 		volumeButton.draw(context);
-		levelSelectionButton.draw(context);
+		// levelSelectionButton.draw(context);
 		// savedGamesButton.draw(context)
 
 		enemy.draw(context);

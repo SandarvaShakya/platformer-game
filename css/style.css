@@ -1,107 +1,125 @@
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
-section{
-    min-height: 100vh;
-    position: relative;
-    background-color: #f1f1f1;
+section {
+	min-height: 100vh;
+	position: relative;
+	background-color: #f1f1f1;
 }
 
-.center{
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
 }
 
-#game-canvas{
-    background: transparent;
-    width: 100%;
+#game-canvas {
+	background: transparent;
+	width: 100%;
 }
 
-#player-select-canvas{
-    position: absolute;
-    background: transparent;
-    width: 100%;
-    z-index: -1;
-    display: none;
+#player-select-canvas {
+	position: absolute;
+	background: transparent;
+	width: 100%;
+	z-index: -1;
+	display: none;
 }
 
-#editor-canvas{
-    display: none;
-    position: absolute;
-    z-index: -1;
-    top: 190px
+#editor-canvas {
+	display: none;
+	position: absolute;
+	z-index: -1;
+	top: 190px;
 }
 
-#custom-game-canvas{
-    position: absolute;
-    display: none;
-    width: 100%;
+#custom-game-canvas {
+	position: absolute;
+	display: none;
+	width: 100%;
 }
 
-.sprites-canvas-wrapper{
-    display: none;
-    position: absolute;
-    width: 100%;
+.sprites-canvas-wrapper {
+	display: none;
+	position: absolute;
+	width: 100%;
 }
 
-#floors{
-    width: 25%;
+#floors {
+	width: 25%;
 }
 
-.button-group{
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    margin-left: 1rem;
-    margin-bottom: auto;
+.button-group {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	margin-left: 1rem;
+	margin-bottom: auto;
 }
 
 #clear-btn,
 #play-btn,
 #back-btn,
-#save-btn{
-    padding: 0.65rem 1.2rem;
-    cursor: pointer;
-    border-radius: 8px;
-    border: none;
+#save-btn {
+	padding: 0.65rem 1.2rem;
+	cursor: pointer;
+	border-radius: 8px;
+	border: none;
 }
 
-#clear-btn{
-    background-color: coral;
-    color: white;
+#clear-btn {
+	background-color: coral;
+	color: white;
 }
 
-#clear-btn:hover{
-    background-color: rgb(215, 93, 48);
+#clear-btn:hover {
+	background-color: rgb(215, 93, 48);
 }
 
-#play-btn{
-    background-color: cornflowerblue;
-    color: white;
+#play-btn {
+	background-color: cornflowerblue;
+	color: white;
 }
 
-#play-btn:hover{
-    background-color: rgb(59, 107, 197);
+#play-btn:hover {
+	background-color: rgb(59, 107, 197);
 }
 
-#back-btn{
-    background-color: crimson;
-    color: white;
+#back-btn {
+	background-color: crimson;
+	color: white;
 }
 
-#back-btn:hover{
-    background-color: rgb(190, 4, 41)
+#back-btn:hover {
+	background-color: rgb(190, 4, 41);
 }
 
-#save-btn{
-    background-color: green;
-    color: white;
+#save-btn {
+	background-color: green;
+	color: white;
 }
 
-#save-btn:hover{
-    background-color: rgb(0, 88, 0)
+#save-btn:hover {
+	background-color: rgb(0, 88, 0);
+}
+
+#loading {
+	font-size: 3rem;
+	position: absolute;
+	width: 100%;
+	background-color: rgb(225, 225, 225, 0.4);
+	height: 100vh;
+	top: 0;
+	left: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	z-index: 1000;
+}
+
+.d-none {
+	display: none !important;
 }

@@ -19,7 +19,7 @@ const displayGameover = (context) => {
 		context.drawImage(gameoverImg, 0, 0);
 		backBigButton.draw(context);
 		restartBigButton.draw(context);
-		levelBigButton.draw(context);
+		// levelBigButton.draw(context);
 	};
 };
 
@@ -38,7 +38,7 @@ const displayNextLevel = (context) => {
 		context.fillText(`${player.score}`, 566, 172);
 		backBigButton.draw(context);
 		nextBigButton.draw(context);
-		levelBigButton.draw(context);
+		// levelBigButton.draw(context);
 	};
 };
 
@@ -133,7 +133,7 @@ const initializeConstantGameButtons = () => {
 const renderConstantGameItems = (context) => {
 	restartButton.draw(context);
 	backButton.draw(context);
-	levelsButton.draw(context);
+	// levelsButton.draw(context);
 	volumeButton.draw(context);
 
 	displayScore(context);
