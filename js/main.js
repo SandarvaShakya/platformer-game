@@ -227,11 +227,11 @@ const preLoader = () => {
 		images[key].onload = () => {
 			loadedImages++;
 			loadingPercentage = Math.floor((loadedImages * 100) / totalImages);
-			document.getElementById("loading").innerText = `${loadingPercentage}%`;
+			document.getElementById(
+				"loading"
+			).innerText = `Loading sprites...${loadingPercentage}%`;
 			if (loadedImages >= totalImages) {
 				preLoadAudio();
-				// document.getElementById("loading").classList.add("d-none");
-				// showMainMenu();
 			}
 		};
 	}
@@ -242,7 +242,9 @@ const preLoadAudio = () => {
 	let totalAudios = 0;
 	let loadedAudios = 0;
 	loadingPercentage = 0;
-	document.getElementById("loading").innerText = `${loadingPercentage}%`;
+	document.getElementById(
+		"loading"
+	).innerText = `Loading audios...${loadingPercentage}%`;
 
 	const audioSources = {
 		1: "assets/audio/jump.wav",
