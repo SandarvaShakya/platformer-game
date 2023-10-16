@@ -270,7 +270,9 @@ const preLoadAudio = () => {
 		audios[key].addEventListener("canplay", () => {
 			loadedAudios++;
 			loadingPercentage = Math.floor((loadedAudios * 100) / totalAudios);
-			document.getElementById("loading").innerText = `${loadingPercentage}%`;
+			document.getElementById(
+				"loading"
+			).innerText = `Loading audios...${loadingPercentage}%`;
 			if (loadedAudios >= totalAudios) {
 				document.getElementById("loading").classList.add("d-none");
 				showMainMenu();
