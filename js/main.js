@@ -229,9 +229,50 @@ const preLoader = () => {
 			loadingPercentage = Math.floor((loadedImages * 100) / totalImages);
 			document.getElementById("loading").innerText = `${loadingPercentage}%`;
 			if (loadedImages >= totalImages) {
+				preLoadAudio();
+				// document.getElementById("loading").classList.add("d-none");
+				// showMainMenu();
+			}
+		};
+	}
+};
+
+const preLoadAudio = () => {
+	let audios = {};
+	let totalAudios = 0;
+	let loadedAudios = 0;
+	loadingPercentage = 0;
+	document.getElementById("loading").innerText = `${loadingPercentage}%`;
+
+	const audioSources = {
+		1: "assets/audio/jump.wav",
+		2: "assets/audio/checkpoint.wav",
+		3: "assets/audio/collide.mp3",
+		4: "assets/audio/customGame.wav",
+		5: "assets/audio/fruits.wav",
+		6: "assets/audio/gameMusic.wav",
+		7: "assets/audio/hit.mp3",
+		8: "assets/audio/levelComplete.mp3",
+		9: "assets/audio/main.wav",
+		10: "assets/audio/playerSelection.wav",
+	};
+
+	for (let key in audioSources) {
+		totalAudios++;
+	}
+
+	for (let key in audioSources) {
+		audios[key] = new Audio();
+		audios[key].src = audioSources[key];
+
+		audios[key].addEventListener("canplay", () => {
+			loadedAudios++;
+			loadingPercentage = Math.floor((loadedAudios * 100) / totalAudios);
+			document.getElementById("loading").innerText = `${loadingPercentage}%`;
+			if (loadedAudios >= totalAudios) {
 				document.getElementById("loading").classList.add("d-none");
 				showMainMenu();
 			}
-		};
+		});
 	}
 };
