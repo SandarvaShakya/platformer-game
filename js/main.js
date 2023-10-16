@@ -134,7 +134,6 @@ window.onload = () => {
 	// if (allAssetsLoaded) showMainMenu();
 };
 
-let allAssetsLoaded = false;
 let loadingPercentage = 0;
 const preLoader = () => {
 	let images = {};
@@ -214,19 +213,6 @@ const preLoader = () => {
 		71: "assets/main-menu.png",
 		72: "assets/nextLevel.png",
 		73: "assets/select-bg.png",
-	};
-
-	const audioSources = {
-		1: "assets/audio/checkpoint.wav",
-		2: "assets/audio/collide.mp3",
-		3: "assets/audio/customGame.wav",
-		4: "assets/audio/fruits.wav",
-		5: "assets/audio/gameMusic.wav",
-		6: "assets/audio/hit.mp3",
-		7: "assets/audio/jump.wav",
-		8: "assets/audio/levelComplete.mp3",
-		9: "assets/audio/main.wav",
-		10: "assets/audio/playerSelection.wav",
 	};
 
 	for (let key in imageSources) {
