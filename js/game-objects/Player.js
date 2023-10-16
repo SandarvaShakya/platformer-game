@@ -228,7 +228,7 @@ class Player extends Sprite {
 			if (!this.isHit) this.switchSprite("jumpLeft");
 		}
 		this.velocity.y = -16;
-		if (audioIsOn) JUMP_AUDIO.play();
+		JUMP_AUDIO.play();
 		JUMP_AUDIO.currentTime = 0;
 	}
 

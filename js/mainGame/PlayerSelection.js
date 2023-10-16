@@ -54,7 +54,7 @@ class PlayerSelection {
 		this.canvas.style.zIndex = 10;
 		MAIN_AUDIO.pause();
 		MAIN_AUDIO.currentTime = 0;
-		if (audioIsOn) PLAYER_SELECT_AUDIO.play();
+		PLAYER_SELECT_AUDIO.play();
 	}
 
 	hide() {

@@ -95,23 +95,6 @@ canvas.addEventListener("click", (event) => {
 	}
 
 	if (
-		(mouseX >= volumeButton.x &&
-			mouseX <= volumeButton.x + volumeButton.width &&
-			mouseY >= volumeButton.y &&
-			mouseY <= volumeButton.y + volumeButton.height &&
-			game.state === "playing") ||
-		game.state === "main-menu"
-	) {
-		if (!muteClick) {
-			muteClick = true;
-			stopAllSounds();
-		} else {
-			muteClick = false;
-			playSound();
-		}
-	}
-
-	if (
 		mouseX >= levelMakerButton.x &&
 		mouseX <= levelMakerButton.x + levelMakerButton.width &&
 		mouseY >= levelMakerButton.y &&
@@ -201,6 +184,23 @@ canvas.addEventListener("click", (event) => {
 		game.state === "gameover"
 	) {
 		restartGame();
+	}
+
+	if (
+		(mouseX >= volumeButton.x &&
+			mouseX <= volumeButton.x + volumeButton.width &&
+			mouseY >= volumeButton.y &&
+			mouseY <= volumeButton.y + volumeButton.height &&
+			game.state === "playing") ||
+		game.state === "main-menu"
+	) {
+		if (!muteClick) {
+			muteClick = true;
+			stopAllSounds();
+		} else {
+			muteClick = false;
+			playSound();
+		}
 	}
 });
 

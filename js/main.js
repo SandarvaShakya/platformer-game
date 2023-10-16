@@ -5,7 +5,7 @@ const gameLoop = () => {
 	MAIN_AUDIO.pause();
 	MAIN_AUDIO.currentTime = 0;
 	GAME_AUDIO.volume = 0.3;
-	if (audioIsOn) GAME_AUDIO.play();
+	GAME_AUDIO.play();
 	gameAnimationId = requestAnimationFrame(gameLoop);
 
 	// background and map
@@ -23,7 +23,7 @@ const gameLoop = () => {
 			if (hasCollided(player, fruit)) {
 				fruit.switchSprite("collided");
 				if (!fruit.hasBeenEaten) {
-					if (audioIsOn) FRUIT_AUDIO.play();
+					FRUIT_AUDIO.play();
 					FRUIT_AUDIO.currentTime = 0;
 					player.increaseScore(fruit.scorePerFruit);
 					fruit.hasBeenEaten = true;
@@ -38,7 +38,7 @@ const gameLoop = () => {
 		// collision with traps
 		if (hasCollided(player, sawTrap)) {
 			player.decreaseHealth();
-			if (audioIsOn) TRAP_HIT_AUDIO.play();
+			TRAP_HIT_AUDIO.play();
 			hearts.splice(player.health, 1);
 			if (player.health === 0) {
 				displayGameover(context);
@@ -53,7 +53,7 @@ const gameLoop = () => {
 		// collision with spike
 		if (hasCollided(player, spike)) {
 			player.decreaseHealth();
-			if (audioIsOn) TRAP_HIT_AUDIO.play();
+			TRAP_HIT_AUDIO.play();
 			hearts.splice(player.health, 1);
 			if (player.health === 0) {
 				displayGameover(context);
@@ -72,7 +72,7 @@ const gameLoop = () => {
 	if (hasCollided(player, finish)) {
 		if (player.score === TARGET_SCORE) {
 			if (finish.currentFrame === finish.frameRate - 1) {
-				if (audioIsOn) LEVEL_COMPLETE_AUDIO.play();
+				LEVEL_COMPLETE_AUDIO.play();
 				displayNextLevel(context);
 				game.changeStateTo("next-level");
 				cancelAnimationFrame(gameAnimationId);
@@ -86,7 +86,7 @@ const gameLoop = () => {
 		if (hasCollided(player, checkpoint)) {
 			if (!player.checkpointReached) {
 				checkpoint.switchSprite("checkpointReached");
-				if (audioIsOn) CHECKPOINT_AUDIO.play();
+				CHECKPOINT_AUDIO.play();
 				player.checkpointReached = true;
 			}
 		}
@@ -106,7 +106,7 @@ const gameLoop = () => {
 
 		if (hasCollided(player, enemy)) {
 			player.decreaseHealth();
-			if (audioIsOn) ENEMY_HIT_AUDIO.play();
+			ENEMY_HIT_AUDIO.play();
 			hearts.splice(player.health, 1);
 			if (player.health === 0) {
 				displayGameover(context);

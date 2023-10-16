@@ -164,7 +164,6 @@ const stopAllSounds = () => {
 	PLAYER_SELECT_AUDIO.muted = true;
 	MAIN_AUDIO.muted = true;
 	GAME_AUDIO.muted = true;
-	audioIsOn = false;
 };
 
 const playSound = () => {
@@ -178,5 +177,4 @@ const playSound = () => {
 	PLAYER_SELECT_AUDIO.muted = false;
 	MAIN_AUDIO.muted = false;
 	GAME_AUDIO.muted = false;
-	audioIsOn = true;
 };

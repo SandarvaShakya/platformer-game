@@ -57,7 +57,7 @@ class Editor {
 		MAIN_AUDIO.pause();
 		MAIN_AUDIO.currentTime = 0;
 		CUSTOM_GAME_AUDIO.volume = 0.5;
-		if (audioIsOn) CUSTOM_GAME_AUDIO.play();
+		CUSTOM_GAME_AUDIO.play();
 		CUSTOM_GAME_AUDIO.currentTime = 0;
 	}
 

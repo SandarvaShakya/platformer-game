@@ -3,7 +3,7 @@ const showMainMenu = () => {
 	GAME_AUDIO.pause();
 	GAME_AUDIO.currentTime = 0;
 	MAIN_AUDIO.volume = 0.5;
-	if (audioIsOn) MAIN_AUDIO.play();
+	MAIN_AUDIO.play();
 	cancelAnimationFrame(menuAnimationId);
 	mainMenuBackground = new Background(
 		"assets/backgrounds/bg1.png",
