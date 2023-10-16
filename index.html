@@ -1,83 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CSS -->
-    <link rel="stylesheet" href="css/style.css">
-    <title>Platformer</title>
-</head>
-<body>
-    <div class="sprites-canvas-wrapper center">
-        <canvas id="floors"></canvas>
-        <div class="button-group">
-            <button id="clear-btn">Clear Map</button>
-            <button id="play-btn">Play Map</button>
-            <button id="save-btn">Save Map</button>
-            <button id="back-btn">Back</button>
-        </div>
-    </div>
-    <section class="center">
-        <canvas id="editor-canvas"></canvas>
-        <canvas id="custom-game-canvas"></canvas>
-        <canvas id="player-select-canvas"></canvas>
-        <canvas id="game-canvas"></canvas>
-    </section>
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<!-- CSS -->
+		<link rel="stylesheet" href="css/style.css" />
+		<title>Platformer</title>
+	</head>
+	<body>
+		<div class="sprites-canvas-wrapper center">
+			<canvas id="floors"></canvas>
+			<div class="button-group">
+				<button id="clear-btn">Clear Map</button>
+				<button id="play-btn">Play Map</button>
+				<button id="save-btn">Save Map</button>
+				<button id="back-btn">Back</button>
+			</div>
+		</div>
+		<section class="center">
+			<canvas id="editor-canvas"></canvas>
+			<canvas id="custom-game-canvas"></canvas>
+			<canvas id="player-select-canvas"></canvas>
+			<canvas id="game-canvas"></canvas>
+		</section>
 
-    <!-- JAVASCRIPT -->
-    <!-- MAP DATA -->
-    <script src="js/data/collision.js"></script>
+		<!-- JAVASCRIPT -->
+		<script src="./js/audio.js"></script>
 
-    <!-- ALL THE LEVELS -->
-    <script src="js/data/levels.js"></script>
+		<!-- MAP DATA -->
+		<script src="js/data/collision.js"></script>
 
-    <!-- GAME BUILDING BLOCKS -->
-    <script src="js/classes/Sprite.js"></script>
-    <script src="js/classes/Background.js"></script>
-    <script src="js/classes/CollisionBlock.js"></script>
-    <script src="js/classes/Grid.js"></script>
+		<!-- ALL THE LEVELS -->
+		<script src="js/data/levels.js"></script>
 
-    <!-- ALL CANVAS -->
-    <script src="js/mainGame/Game.js"></script>
-    <script src="js/mapEditor/GameItem.js"></script>
-    <script src="js/mapEditor/Editor.js"></script>
-    <script src="js/customGame/CustomGame.js"></script>
-    <script src="js/mainGame/PlayerSelection.js"></script>
-    
-    <!-- THE BLOCK THAT HAS INFO OF EDITED LEVEL'S TERRIAN -->
-    <script src="js/customGame/RenderBlock.js"></script>
+		<!-- GAME BUILDING BLOCKS -->
+		<script src="js/classes/Sprite.js"></script>
+		<script src="js/classes/Background.js"></script>
+		<script src="js/classes/CollisionBlock.js"></script>
+		<script src="js/classes/Grid.js"></script>
 
-    <!-- ALL GLOBAL VARIABLES AND INITIALIZATION -->
-    <script src="js/globals.js"></script>
+		<!-- ALL CANVAS -->
+		<script src="js/mainGame/Game.js"></script>
+		<script src="js/mapEditor/GameItem.js"></script>
+		<script src="js/mapEditor/Editor.js"></script>
+		<script src="js/customGame/CustomGame.js"></script>
+		<script src="js/mainGame/PlayerSelection.js"></script>
 
-    <!-- ALL THE GAME OBEJCTS -->
-    <script src="js/game-objects/Fruit.js"></script>
-    <script src="js/game-objects/Trap.js"></script>
-    <script src="js/game-objects/Saw.js"></script>
-    <script src="js/game-objects/Checkpoint.js"></script>
-    <script src="js/game-objects/Heart.js"></script>
-    <script src="js/game-objects/Enemy.js"></script>
-    <script src="js/game-objects/Player.js"></script>
-    <script src="js/game-objects/LevelIcon.js"></script>
+		<!-- THE BLOCK THAT HAS INFO OF EDITED LEVEL'S TERRIAN -->
+		<script src="js/customGame/RenderBlock.js"></script>
 
+		<!-- ALL GLOBAL VARIABLES AND INITIALIZATION -->
+		<script src="js/globals.js"></script>
 
-    <!-- THE EXTRA FUNCTIONS FOR EACH COMPONENTS -->
-    <script src="js/utils.js"></script>
-    <script src="js/utils/fruitUtils.js"></script>
-    <script src="js/utils/gameUtils.js"></script>
-    <script src="js/utils/mapEditorUtils.js"></script>
-    <script src="js/utils/customGameUtils.js"></script>
+		<!-- ALL THE GAME OBEJCTS -->
+		<script src="js/game-objects/Fruit.js"></script>
+		<script src="js/game-objects/Trap.js"></script>
+		<script src="js/game-objects/Saw.js"></script>
+		<script src="js/game-objects/Checkpoint.js"></script>
+		<script src="js/game-objects/Heart.js"></script>
+		<script src="js/game-objects/Enemy.js"></script>
+		<script src="js/game-objects/Player.js"></script>
+		<script src="js/game-objects/LevelIcon.js"></script>
 
-    <!-- ALL THE EVENT LISTENERS -->
-    <script src="js/eventListeners.js"></script>
+		<!-- THE EXTRA FUNCTIONS FOR EACH COMPONENTS -->
+		<script src="js/utils.js"></script>
+		<script src="js/utils/fruitUtils.js"></script>
+		<script src="js/utils/gameUtils.js"></script>
+		<script src="js/utils/mapEditorUtils.js"></script>
+		<script src="js/utils/customGameUtils.js"></script>
 
-    <!-- ALL THE ANIMATIONS OF VARIOUS CANVAS -->
-    <script src="js/animations/playerSelect.js"></script>
-    <script src="js/animations/menu.js"></script>
-    <script src="js/animations/levelEditor.js"></script>
-    <script src="js/animations/editedGame.js"></script>
+		<!-- ALL THE EVENT LISTENERS -->
+		<script src="js/eventListeners.js"></script>
 
-    <!-- THE GAME STARTS HERE -->
-    <script src="js/main.js"></script>
-</body>
+		<!-- ALL THE ANIMATIONS OF VARIOUS CANVAS -->
+		<script src="js/animations/playerSelect.js"></script>
+		<script src="js/animations/menu.js"></script>
+		<script src="js/animations/levelEditor.js"></script>
+		<script src="js/animations/editedGame.js"></script>
+
+		<!-- THE GAME STARTS HERE -->
+		<script src="js/main.js"></script>
+	</body>
 </html>
