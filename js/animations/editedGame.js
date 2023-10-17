@@ -43,6 +43,12 @@ const initCustomLevel = () => {
 		11,
 		selectedPlayer.animations
 	);
+
+	for (let i = 0; i < player.health; i++) {
+		let heart = new Sprite("assets/heart/heart.png", 18 + i * 22, 18, 1);
+		hearts.push(heart);
+	}
+
 	customGameBackground = new Background(
 		"assets/backgrounds/bg1.png",
 		0,
