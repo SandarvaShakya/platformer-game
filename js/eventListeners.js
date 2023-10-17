@@ -215,6 +215,7 @@ customGameCanvas.addEventListener("click", (event) => {
 		mouseY <= restartButton.y + restartButton.height &&
 		game.state === "playing"
 	) {
+		cancelAnimationFrame(customGameId);
 		initCustomLevel();
 	}
 
@@ -252,6 +253,7 @@ customGameCanvas.addEventListener("click", (event) => {
 		mouseY <= restartBigButton.y + restartBigButton.height &&
 		game.state === "gameover"
 	) {
+		console.log("Test");
 		initCustomLevel();
 	}
 });
